@@ -1,19 +1,10 @@
-#!/usr/bin/env python3
-"""Plot the live microphone signal(s) with matplotlib.
-
-Matplotlib and NumPy have to be installed.
-
-"""
 import argparse
 import queue
 import sys
 from datetime import datetime
-
-
-from matplotlib.animation import FuncAnimation
-import matplotlib.pyplot as plt
-import numpy as np
 import sounddevice as sd
+import numpy  # Make sure NumPy is loaded before it is used in the callback
+assert numpy  # avoid "imported but unused" message (W0611)
 global count, l
 l=[]
 count=0
@@ -39,37 +30,20 @@ parser = argparse.ArgumentParser(
     formatter_class=argparse.RawDescriptionHelpFormatter,
     parents=[parser])
 parser.add_argument(
-    'channels', type=int, default=[1], nargs='*', metavar='CHANNEL',
-    help='input channels to plot (default: the first)')
+    'filename', nargs='?', metavar='FILENAME',
+    help='audio file to store recording to')
 parser.add_argument(
     '-d', '--device', type=int_or_str,
     help='input device (numeric ID or substring)')
 parser.add_argument(
-    '-w', '--window', type=float, default=200, metavar='DURATION',
-    help='visible time slot (default: %(default)s ms)')
+    '-r', '--samplerate', type=int, help='sampling rate')
 parser.add_argument(
-    '-i', '--interval', type=float, default=30,
-    help='minimum time between plot updates (default: %(default)s ms)')
+    '-c', '--channels', type=int, default=1, help='number of input channels')
 parser.add_argument(
-    '-b', '--blocksize', type=int, help='block size (in samples)')
-parser.add_argument(
-    '-r', '--samplerate', type=float, help='sampling rate of audio device')
-parser.add_argument(
-    '-n', '--downsample', type=int, default=10, metavar='N',
-    help='display every Nth sample (default: %(default)s)')
+    '-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
 args = parser.parse_args(remaining)
-if any(c < 1 for c in args.channels):
-    parser.error('argument CHANNEL: must be >= 1')
-mapping = [c - 1 for c in args.channels]  # Channel numbers start with 1
+
 q = queue.Queue()
-
-
-def audio_callback(indata, frames, time, status):
-    """This is called (from a separate thread) for each audio block."""
-    if status:
-        print(status, file=sys.stderr)
-    # Fancy indexing with mapping creates a (necessary!) copy:
-    q.put(indata[::args.downsample, mapping])
 
 def op(x):
     global count,l
@@ -86,57 +60,36 @@ def op(x):
             print(current_time)
         count=0
 
-def update_plot(frame):
-    """This is called by matplotlib for each plot update.
-
-    Typically, audio callbacks happen more frequently than plot updates,
-    therefore the queue tends to contain multiple blocks of audio data.
-
-    """
-    global plotdata
-    while True:
-        try:
-            data = q.get_nowait()
-            for i in data:
-                x=int(i[0]*1000)
-                if x<0:
-                    op(-1*x)
-                else:
-                    op(x)
-        except queue.Empty:
-            break
-        shift = len(data)
-        plotdata = np.roll(plotdata, -shift, axis=0)
-        plotdata[-shift:, :] = data
-    for column, line in enumerate(lines):
-        line.set_ydata(plotdata[:, column])
-    return lines
+def callback(indata, frames, time, status):
+    """This is called (from a separate thread) for each audio block."""
+    if status:
+        print(status, file=sys.stderr)
+    q.put(indata.copy())
 
 
 try:
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
-        args.samplerate = device_info['default_samplerate']
+        args.samplerate = int(device_info['default_samplerate'])
 
-    length = int(args.window * args.samplerate / (1000 * args.downsample))
-    plotdata = np.zeros((length, len(args.channels)))
-    fig, ax = plt.subplots()
-    lines = ax.plot(plotdata)
-    if len(args.channels) > 1:
-        ax.legend(['channel {}'.format(c) for c in args.channels],
-                  loc='lower left', ncol=len(args.channels))
-    ax.axis((0, len(plotdata), -1, 1))
-    ax.set_yticks([0])
-    ax.yaxis.grid(True)
-    ax.tick_params(bottom=False, top=False, labelbottom=False,
-                   right=False, left=False, labelleft=False)
-    fig.tight_layout(pad=0)
-
-    stream = sd.InputStream(
-        device=args.device, channels=max(args.channels),
-        samplerate=args.samplerate, callback=audio_callback)
-    ani = FuncAnimation(fig, update_plot, interval=args.interval, blit=True)
-    with stream:
-        plt.show()
+    with sd.InputStream(samplerate=args.samplerate, device=args.device,
+                            channels=args.channels, callback=callback):
+        print('#' * 80)
+        print('press Ctrl+C to stop the recording')
+        print('#' * 80)
+        while True:
+            data=q.get()
+            for i in data:
+                x = int(i[0] * 1000)
+                if x < 0:
+                    #op(-1 * x)
+                    print(-1*x)
+                else:
+                    #op(x)
+                    print(x)
+except KeyboardInterrupt:
+    print('\nRecording finished: ' + repr(args.filename))
+    parser.exit(0)
 except Exception as e:
     parser.exit(type(e).__name__ + ': ' + str(e))
+
