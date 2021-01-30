@@ -27,6 +27,7 @@ def questions():
     dict=[]
     for i in que:
         temp={
+            'uid':str(i['_id']),
             'id':i['id'],
             'que':i['que'],
             'choices':i['choices']
@@ -49,7 +50,7 @@ def get_data():
     dict=[]
     for i in dbResponses:
         temp={
-            'id':str(i['_id']),
+            'uid':str(i['_id']),
             'name':i['name'],
             'email':i['email'],
             'timestamp':i['timestamp'],
@@ -58,6 +59,24 @@ def get_data():
         dict.append(temp)
     return jsonify(dict)
 
+@app.route('/delete/<resource_type>/<resource_uid>',methods=['DELETE'])
+def delete(resource_type,resource_uid):
+    # try:
+    if resource_type in ["question","que"]:
+        mongo.db.questions.delete_one({"_id" : resource_uid})
+        message=str(resource_type)+" "+str(resource_uid)+": Delete OK"
+        return message,400        
+    if resource_type in ["response","res"]:
+        mongo.db.responses.delete_one({"_id" : resource_uid})
+        message=str(resource_type)+" "+str(resource_uid)+": Delete OK"
+        return message,400
+    else: 
+        raise
+    # except None:
+    #     message=str(resource_type)+" "+str(resource_uid)+": Is invalid"
+    #     return message,400
+    return "Unexpected Error",400
+    
 @app.route('/test-connection',methods=['GET','POST'])
 def func():
     return "OK",200
