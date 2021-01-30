@@ -653,13 +653,14 @@ def showMark(mark):
 def start():
     global root 
     root = Tk()
-    canvas = Canvas(root,width = 720,height = 440)
+    root.title("-Welcome to Texam-")
+    canvas = Canvas(root,width = 626,height = 420)
     canvas.grid(column = 0 , row = 1)
     img = PhotoImage(file="back.png")
-    canvas.create_image(50,10,image=img,anchor=NW)
+    canvas.create_image(0,0,image=img,anchor=NW)
 
-    button = Button(root, text='Start',command = signUpPage) 
-    button.configure(width = 102,height=2, activebackground = "#33B5E5", bg ='green', relief = RAISED)
+    button = Button(root, text='START',command = signUpPage)
+    button.configure(width = 46,height=2, activebackground = "#33B5E5", bg ='green', relief = RAISED,font='Helvetica 18 bold')
     button.grid(column = 0 , row = 2)
 
     root.mainloop()
