@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import *
 import random
-import sqlite3 
+import sqlite3
 import time
 
 def loginPage(logdata):
@@ -142,33 +142,37 @@ def signUpPage():
 
 def menu():
     login.destroy()
-    global menu
+    global menu,canvas
     menu = Tk()
     menu.title("-Texam-")
     canvas = Canvas(menu, width=626, height=420)
     canvas.grid(column=0, row=1)
     img = PhotoImage(file="Guide.png")
     canvas.create_image(0, 0, image=img, anchor=NW)
-    button = Button(menu, text='START(2min after pressing test will start)', command=easy)
+    button = Button(menu, text='START', command=easy)
     button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,
                      font='Helvetica 18 bold')
     button.grid(column=0, row=2)
     menu.mainloop()
 def easy():
-    time.sleep(120)
+    timer = Label(menu)
+    timer.place(relx=0.6, rely=0.925, anchor=CENTER)
+    for k in range(60, 0, -1):
+        timer.configure(text=k)
+        canvas.update()
+        time.sleep(1)
     menu.destroy()
     global e
     e = Tk()
-    easy_canvas = Canvas(e,width=720,height=440,bg="#101357")
+    easy_canvas = Canvas(e,width=720,height=440,bg="black")
     easy_canvas.pack()
-
     easy_frame = Frame(easy_canvas,bg="white")
-    easy_frame.place(relwidth=0.8,relheight=0.8,relx=0.1,rely=0.1)
+    easy_frame.place(relwidth=0.9,relheight=0.9,relx=0.05,rely=0.05)
 
     
     def countDown():
         check = 0
-        for k in range(10, 0, -1):
+        for k in range(60, 0, -1):
             
             if k == 1:
                 check=-1
@@ -178,6 +182,7 @@ def easy():
             
         timer.configure(text="Times up!")
         if check==-1:
+            calc()
             return (-1)
         else:
             return 0
@@ -253,17 +258,12 @@ def easy():
     
     timer = Label(e)
     timer.place(relx=0.8,rely=0.82,anchor=CENTER)
-    
-    
-    
+
     def display():
         
         if len(li) == 1:
                 e.destroy()
                 showMark(score)
-        if len(li) == 2:
-            nextQuestion.configure(text='End',command=calc)
-                
         if li:
             x = random.choice(li[1:])
             ques.configure(text =easyQ[x][0])
@@ -288,13 +288,7 @@ def easy():
         if (var.get() in answer):
             score+=1
         display()
-    
-    submit = Button(easy_frame,command=calc,text="Submit")
-    submit.place(relx=0.5,rely=0.82,anchor=CENTER)
-    
-    nextQuestion = Button(easy_frame,command=display,text="Next")
-    nextQuestion.place(relx=0.87,rely=0.82,anchor=CENTER)
-    
+
     y = countDown()
     if y == -1:
         display()
