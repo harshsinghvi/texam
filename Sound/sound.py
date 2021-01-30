@@ -5,8 +5,8 @@ from datetime import datetime
 import sounddevice as sd
 import numpy  # Make sure NumPy is loaded before it is used in the callback
 assert numpy  # avoid "imported but unused" message (W0611)
-global count, l
 l=[]
+t=[]
 count=0
 
 def int_or_str(text):
@@ -42,23 +42,8 @@ parser.add_argument(
 parser.add_argument(
     '-t', '--subtype', type=str, help='sound file subtype (e.g. "PCM_24")')
 args = parser.parse_args(remaining)
-
 q = queue.Queue()
 
-def op(x):
-    global count,l
-    batch=10
-    if x>200:
-        count+=1
-    else:
-        count=0
-    if count==batch:
-        now = datetime.now()
-        current_time = now.strftime("%H:%M:%S")
-        if current_time not in l:
-            l.append(current_time)
-            print(current_time)
-        count=0
 
 def callback(indata, frames, time, status):
     """This is called (from a separate thread) for each audio block."""
@@ -66,30 +51,32 @@ def callback(indata, frames, time, status):
         print(status, file=sys.stderr)
     q.put(indata.copy())
 
-
-try:
+def P():
     if args.samplerate is None:
         device_info = sd.query_devices(args.device, 'input')
         args.samplerate = int(device_info['default_samplerate'])
-
     with sd.InputStream(samplerate=args.samplerate, device=args.device,
-                            channels=args.channels, callback=callback):
-        print('#' * 80)
-        print('press Ctrl+C to stop the recording')
-        print('#' * 80)
+                        channels=args.channels, callback=callback):
         while True:
             data=q.get()
             for i in data:
                 x = int(i[0] * 1000)
                 if x < 0:
-                    #op(-1 * x)
-                    print(-1*x)
-                else:
-                    #op(x)
-                    print(x)
-except KeyboardInterrupt:
-    print('\nRecording finished: ' + repr(args.filename))
-    parser.exit(0)
-except Exception as e:
-    parser.exit(type(e).__name__ + ': ' + str(e))
-
+                        x=(-1 * x)
+                    current_time = datetime.now()
+                    if current_time not in t:
+                        t.append(current_time)
+                    if x > 300:
+                        if current_time not in l:
+                            l.append(current_time)
+                    if len(t)==10:
+                        if len(l)==8:
+                            print("yessss")
+                            parser.exit(0)
+                        else:
+                            print("*")
+                            parser.exit(0)
+    except Exception as e:
+        parser.exit(type(e).__name__ + ': ' + str(e))
+while(True):
+    P()
