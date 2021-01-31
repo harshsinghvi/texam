@@ -38,10 +38,24 @@ def questions():
 @app.route('/store-responses',methods=['GET','POST'])
 def store_responses():
     que=mongo.db.responses
+    ans=mongo.db.answers.find()[0]
+    scores=mongo.db.scores
     temp=request.get_json()
     temp['timestamp']=str(datetime.now())
-    if que.insert_one(temp).acknowledged:
-        return "OK",200
+
+    sc=0
+    pen= int(temp['penalties'])
+
+    for i in temp['responses']:
+        if temp['responses'][i] == ans[i]:
+            sc = sc + 4
+        else: 
+            sc = sc -1
+
+    score={ "name":"Sample data","score":str(sc),"penalties": str(pen),"total":str( sc - int(pen / 3)) }
+    if que.insert_one(temp).acknowledged and scores.insert_one(score).acknowledged:
+        score.pop("_id") 
+        return score,200
     return "ERROR",404
 
 @app.route('/get-data',methods=['GET','POST'])
@@ -54,7 +68,8 @@ def get_data():
             'name':i['name'],
             'email':i['email'],
             'timestamp':i['timestamp'],
-            'responses':i['responses']
+            'responses':i['responses'],
+            'penalties':i['penalties']
         }
         dict.append(temp)
     return jsonify(dict)
@@ -80,6 +95,16 @@ def delete(resource_type,resource_uid):
 @app.route('/test-connection',methods=['GET','POST'])
 def func():
     return "OK",200
+
+@app.route('/scores',methods=['GET','POST'])
+def scores():
+    scores=mongo.db.scores.find()
+    data={"scores": [] }
+    for i in scores:
+        i.pop("_id")
+        data['scores'].append(i)
+        # del data["scores"][-1]["_id"]
+    return data
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
