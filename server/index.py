@@ -53,7 +53,7 @@ def store_responses():
         else: 
             sc = sc -1
 
-    score={ "name":"Sample data","score":str(sc),"penalties": str(pen),"total":str( sc - int(pen / 3)) }
+    score={ "name":temp["name"],"score":str(sc),"penalties": str(pen),"total":str( sc - int(pen / 3)) }
     if que.insert_one(temp).acknowledged and scores.insert_one(score).acknowledged:
         score.pop("_id") 
         return score,200
