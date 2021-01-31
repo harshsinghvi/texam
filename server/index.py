@@ -54,7 +54,7 @@ def store_responses():
     for i in temp['responses']:
         if temp['responses'][i] == ans[i]:
             sc = sc + 4
-        if temp['responses'][i] == '':
+        elif temp['responses'][i] == '':
             pass
         else: 
             sc = sc -1
