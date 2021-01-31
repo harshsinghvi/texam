@@ -1,10 +1,23 @@
 import tkinter as tk
 from tkinter import *
 import random
-import sqlite3
 import time
-
-def loginPage(logdata):
+def verification(email):
+    #-----harsh will add-----
+    return 1234
+def push(List,key):
+    #-----harsh will add-----
+    pass
+def pull(key):
+    #----harsh will add-----
+    pass
+def check(key):
+    #-----harsh will add---
+    return True
+def delete(key):
+    #----harsh will add----
+    pass
+def Join(l):
     sup.destroy()
     global login
     login = Tk()
@@ -12,6 +25,7 @@ def loginPage(logdata):
     
     user_name = StringVar()
     password = StringVar()
+
     
     login_canvas = Canvas(login,width=720,height=440,bg="white")
     login_canvas.pack()
@@ -23,34 +37,76 @@ def loginPage(logdata):
     heading.config(font=('calibri 40'))
     heading.place(relx=0.4,rely=0.1)
 
-    #USER NAME
-    ulabel = Label(login_frame,text="Username",fg='black',bg='white')
+    #email Verification code
+    ulabel = Label(login_frame,text="Email Verification code",fg='black',bg='white')
     ulabel.place(relx=0.15,rely=0.4)
     uname = Entry(login_frame,bg='#d3d3d3',fg='black',textvariable = user_name)
     uname.config(width=42)
     uname.place(relx=0.31,rely=0.4)
 
-    #PASSWORD
-    plabel = Label(login_frame,text="Password",fg='black',bg='white')
+    #Test code
+    plabel = Label(login_frame,text="Test Code",fg='black',bg='white')
     plabel.place(relx=0.15,rely=0.5)
     pas = Entry(login_frame,bg='#d3d3d3',fg='black',show="*",textvariable = password)
     pas.config(width=42)
     pas.place(relx=0.31,rely=0.5)
+    email_code=uname.get()
+    test_code=pas.get()
 
-    def check():
-        for a,b,c,d in logdata:
-            if b == uname.get() and c == pas.get() and b!="" and c!=0:
-                menu()
-                break
-        else:
-            error = Label(login_frame,text="Wrong Username or Password!",fg='black',bg='white')
-            error.place(relx=0.37,rely=0.7)
+   #error = Label(login_frame,text="Wrong Username or Password!",fg='black',bg='white')
+   #error.place(relx=0.37,rely=0.7)
     
     #LOGIN BUTTON
-    log = Button(login_frame,text='Login',padx=5,pady=5,width=5,command=check)
+    log = Button(login_frame,text='Join Now',padx=5,pady=5,width=5,command=check)
     log.configure(width = 15,height=1, activebackground = "#33B5E5", relief = FLAT,bg="green")
     log.place(relx=0.4,rely=0.6)
     
+    login.mainloop()
+
+
+def Create(l):
+    sup.destroy()
+    global login
+    login = Tk()
+    login.title("-Texam-")
+
+    user_name = StringVar()
+    password = StringVar()
+
+    login_canvas = Canvas(login, width=720, height=440, bg="white")
+    login_canvas.pack()
+
+    login_frame = Frame(login_canvas, bg="white")
+    login_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
+
+    heading = Label(login_frame, text="Login", fg="black", bg="white")
+    heading.config(font=('calibri 40'))
+    heading.place(relx=0.4, rely=0.1)
+
+    # email Verification code
+    ulabel = Label(login_frame, text="Email Verification code", fg='black', bg='white')
+    ulabel.place(relx=0.15, rely=0.4)
+    uname = Entry(login_frame, bg='#d3d3d3', fg='black', textvariable=user_name)
+    uname.config(width=42)
+    uname.place(relx=0.31, rely=0.4)
+
+    # Test code
+    plabel = Label(login_frame, text="Test Code", fg='black', bg='white')
+    plabel.place(relx=0.15, rely=0.5)
+    pas = Entry(login_frame, bg='#d3d3d3', fg='black', show="*", textvariable=password)
+    pas.config(width=42)
+    pas.place(relx=0.31, rely=0.5)
+    email_code = uname.get()
+    test_code = pas.get()
+
+    # error = Label(login_frame,text="Wrong Username or Password!",fg='black',bg='white')
+    # error.place(relx=0.37,rely=0.7)
+
+    # LOGIN BUTTON
+    log = Button(login_frame, text='Login', padx=5, pady=5, width=5, command=check)
+    log.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT, bg="green")
+    log.place(relx=0.4, rely=0.6)
+
     login.mainloop()
 
 def signUpPage():
@@ -60,84 +116,48 @@ def signUpPage():
     sup.title("-Texam-")
     fname = StringVar()
     uname = StringVar()
-    passW = StringVar()
-    country = StringVar()
-    
-    
     sup_canvas = Canvas(sup,width=720,height=440,bg="white")
     sup_canvas.pack()
-
     sup_frame = Frame(sup_canvas,bg="white")
     sup_frame.place(relwidth=0.7,relheight=0.8,relx=0.1,rely=0.1)
-
-    heading = Label(sup_frame,text="SignUp",fg="black",bg="white")
+    heading = Label(sup_frame,text="Login",fg="black",bg="white")
     heading.config(font=('calibri 40'))
     heading.place(relx=0.4,rely=0.1)
-
     #full name
     flabel = Label(sup_frame,text="Full Name",fg='black',bg='white')
     flabel.place(relx=0.15,rely=0.4)
     fname = Entry(sup_frame,bg='#d3d3d3',fg='black',textvariable = fname)
     fname.config(width=42)
     fname.place(relx=0.31,rely=0.4)
-
-    #username
-    ulabel = Label(sup_frame,text="Username",fg='black',bg='white')
+    #email
+    ulabel = Label(sup_frame,text="Email ID",fg='black',bg='white')
     ulabel.place(relx=0.15,rely=0.5)
     user = Entry(sup_frame,bg='#d3d3d3',fg='black',textvariable = uname)
     user.config(width=42)
     user.place(relx=0.31,rely=0.5)
-    
-    
-    #password
-    plabel = Label(sup_frame,text="Password",fg='black',bg='white')
-    plabel.place(relx=0.15,rely=0.6)
-    pas = Entry(sup_frame,bg='#d3d3d3',fg='black',show="*",textvariable = passW)
-    pas.config(width=42)
-    pas.place(relx=0.31,rely=0.6)
-    
-    
-    
-    #country
-    clabel = Label(sup_frame,text="Country",fg='black',bg='white')
-    clabel.place(relx=0.15,rely=0.7)
-    c = Entry(sup_frame,bg='#d3d3d3',fg='black',textvariable = country)
-    c.config(width=42)
-    c.place(relx=0.31,rely=0.7)
     def addUserToDataBase():
-        
         fullname = fname.get()
-        username = user.get()
-        password = pas.get()
-        country = c.get()
-        
-        conn = sqlite3.connect('quiz.db')
-        create = conn.cursor()
-        create.execute('CREATE TABLE IF NOT EXISTS userSignUp(FULLNAME text, USERNAME text,PASSWORD text,COUNTRY text)')
-        create.execute("INSERT INTO userSignUp VALUES (?,?,?,?)",(fullname,username,password,country)) 
-        conn.commit()
-        create.execute('SELECT * FROM userSignUp')
-        z=create.fetchall()
-        print(z)
-#        L2.config(text="Username is "+z[0][0]+"\nPassword is "+z[-1][1])
-        conn.close()
-        loginPage(z)
-    def gotoLogin():
-        conn = sqlite3.connect('quiz.db')
-        create = conn.cursor()
-        conn.commit()
-        create.execute('SELECT * FROM userSignUp')
-        z=create.fetchall()
-        loginPage(z)
-    #signup BUTTON
-    sp = Button(sup_frame,text='SignUp',padx=5,pady=5,width=5,command = addUserToDataBase,bg='green')
+        email = user.get()
+        if len(fullname)<3 or len(email)<3:
+            error = Label(login_frame, text="Enter Valid Name & Email!", fg='black', bg='white')
+            error.place(relx=0.37,rely=0.7)
+        else:
+            code = verification(email)
+            l=[fullname,email,code]
+            Join(l)
+    def addUserToDataBase2():
+        fullname = fname.get()
+        email = user.get()
+        l=[fullname,email]
+        Create(l)
+    #JOIN BUTTON
+    sp = Button(sup_frame,text='JOIN TEST',padx=5,pady=5,width=5,command = addUserToDataBase,bg='green')
     sp.configure(width = 15,height=1, activebackground = "#33B5E5", relief = FLAT)
     sp.place(relx=0.45,rely=0.8)
-
-    log = Button(sup_frame,text='Login',padx=5,pady=5,width=5,command = gotoLogin,bg="white",fg='blue')
+    #CREATE BUTTON
+    log = Button(sup_frame,text='CREATE TEST',padx=5,pady=5,width=5,command = addUserToDataBase2,bg="white",fg='blue')
     log.configure(width = 15,height=1, activebackground = "#33B5E5", relief = FLAT)
     log.place(relx=0.45,rely=0.9)
-
     sup.mainloop()
 
 def menu():
@@ -172,7 +192,7 @@ def easy():
     
     def countDown():
         check = 0
-        for k in range(60, 0, -1):
+        for k in range(90, 0, -1):
             
             if k == 1:
                 check=-1
