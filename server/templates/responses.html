@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>TEXAM</title>
+    <title>TEXAM Responses</title>
     <style>
         body          { color: #eee; background: #121212; font:sans-serif; }
         h1            { color: white;font-size: 500%; }
@@ -15,26 +15,31 @@
 
 <body style="text-align:center;" id="body">
 <script>
-    const URL="https://online-exam-pi.vercel.app/";
-    // const URL="http://localhost:5000";
+    //const URL="https://online-exam-pi.vercel.app/";
+     const URL="http://localhost:5000";
     async function main(){
-        var url = URL+"/scores";
+        var url = URL+"/get-data";
         const response = await fetch(url);
         var data = await response.json();
-        var html = '<tr> <th>Rank</th> <th>Name</th> <th>Score</th> <th>Penalties</th> <th> Total </th>  </tr>';
+        var html = '<tr> <th>_id</th><th>Timestamp</th> <th>Name</th> <th>E Mail</th> <th>Penalties</th> <th> Answers </th>  </tr>';
         one = parseInt("1")
-        for(i in data['scores'])
+        for(i in data)
         {
-            html = html + '  <tr> <td>'+(parseInt(i)+ one)+'</td> <td>'+ data['scores'][i]['name'] +'</td>  <td>' + data['scores'][i]['score'] +'</td> <td style = "color:red" >'+data['scores'][i]['penalties']+'</td><td style = "color:green">'+ data['scores'][i]['total']+'</td>   </tr>'
+            var answers="{";
+            for(j in data[i]['responses']){
+                answers += j + " : '"+data[i]['responses'][j].toString()+"' , ";
+            }
+            answers += "}";
+            html = html + '  <tr> <td>'+ data[i]['uid'] +'</td> <td>'+data[i]['timestamp'] +'</td> <td>'+ data[i]['name'] +'</td>  <td>' + data[i]['email'] +'</td> <td style = "color:red" >'+data[i]['penalties']+'</td><td style = "color:green";>'+ answers +'</td>   </tr>'
         }
         document.getElementById("data").innerHTML=html;
-        document.getElementById("status").innerText="* Maximum Marks = "+data["max_marks"];
+        document.getElementById("status").innerText=null;
     }
     main();
 </script>
 
     <h1 style="color:#0366D6;">TEXAM</h1>
-    <h2>Exam Results</h2>
+    <h2>Exam Responses</h2>
     <br>
     <center>
         <div style="color: green ;" id="status">Loading ... Please Wait</div>

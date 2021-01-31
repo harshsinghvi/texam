@@ -19,8 +19,12 @@ CORS(app, support_credentials=True)
 
 # API resourses
 @app.route('/', methods=['GET'])
-def home():
+def index():
     return render_template("index.html")
+
+@app.route('/responses', methods=['GET'])
+def responses():
+    return render_template("responses.html")
 
 @app.route('/questions',methods=['GET'])
 def questions():
@@ -73,6 +77,7 @@ def get_data():
             'penalties':i['penalties']
         }
         dict.append(temp)
+    dict.reverse()
     return jsonify(dict)
 
 @app.route('/delete/<resource_type>/<resource_uid>',methods=['DELETE'])
