@@ -3,6 +3,7 @@ import json
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo
+from flask import render_template
 
 from datetime import datetime
 import settings
@@ -19,7 +20,7 @@ CORS(app, support_credentials=True)
 # API resourses
 @app.route('/', methods=['GET'])
 def home():
-    return "<h1>Doccumentation</h1><p>This site is a prototype API for online assisment and forms collection.</p><br><h2>Use Following Resources:- </h2> <h3>/questions</h3><h3>/store-responses</h3><h3>/get-data</h3><h3>/test-connection</h3><h3>/scores</h3><h3>/delete</h3>"
+    return render_template("index.html")
 
 @app.route('/questions',methods=['GET'])
 def questions():
@@ -103,8 +104,9 @@ def scores():
     for i in scores:
         i.pop("_id")
         data['scores'].append(i)
-    sorted_data = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
-    return sorted_data
+    data["scores"] = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
+    data["max_marks"] =  20
+    return data
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
