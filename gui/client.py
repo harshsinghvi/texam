@@ -1,13 +1,13 @@
 import requests
-import json 
-import jsonify
+#import json
+#import jsonify
 
 
 class Request_error:
     pass
 
-# URL = 'https://online-exam-pi.vercel.app'
-URL = 'http://localhost:5000'
+URL = 'https://online-exam-pi.vercel.app'
+#URL = 'http://localhost:5000'
 
 def get_questions():
     req = requests.get(URL+'/questions')

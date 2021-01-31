@@ -1,113 +1,26 @@
-import tkinter as tk
 from tkinter import *
-import random
 import time
-def verification(email):
-    #-----harsh will add-----
-    return 1234
-def push(List,key):
-    #-----harsh will add-----
-    pass
-def pull(key):
-    #----harsh will add-----
-    pass
-def check(key):
-    #-----harsh will add---
-    return True
-def delete(key):
-    #----harsh will add----
-    pass
-def Join(l):
-    sup.destroy()
-    global login
-    login = Tk()
-    login.title("-Texam-")
-    
-    user_name = StringVar()
-    password = StringVar()
-
-    
-    login_canvas = Canvas(login,width=720,height=440,bg="white")
-    login_canvas.pack()
-
-    login_frame = Frame(login_canvas,bg="white")
-    login_frame.place(relwidth=0.8,relheight=0.8,relx=0.1,rely=0.1)
-
-    heading = Label(login_frame,text="Login",fg="black",bg="white")
-    heading.config(font=('calibri 40'))
-    heading.place(relx=0.4,rely=0.1)
-
-    #email Verification code
-    ulabel = Label(login_frame,text="Email Verification code",fg='black',bg='white')
-    ulabel.place(relx=0.15,rely=0.4)
-    uname = Entry(login_frame,bg='#d3d3d3',fg='black',textvariable = user_name)
-    uname.config(width=42)
-    uname.place(relx=0.31,rely=0.4)
-
-    #Test code
-    plabel = Label(login_frame,text="Test Code",fg='black',bg='white')
-    plabel.place(relx=0.15,rely=0.5)
-    pas = Entry(login_frame,bg='#d3d3d3',fg='black',show="*",textvariable = password)
-    pas.config(width=42)
-    pas.place(relx=0.31,rely=0.5)
-    email_code=uname.get()
-    test_code=pas.get()
-
-   #error = Label(login_frame,text="Wrong Username or Password!",fg='black',bg='white')
-   #error.place(relx=0.37,rely=0.7)
-    
-    #LOGIN BUTTON
-    log = Button(login_frame,text='Join Now',padx=5,pady=5,width=5,command=check)
-    log.configure(width = 15,height=1, activebackground = "#33B5E5", relief = FLAT,bg="green")
-    log.place(relx=0.4,rely=0.6)
-    
-    login.mainloop()
-
-
-def Create(l):
-    sup.destroy()
-    global login
-    login = Tk()
-    login.title("-Texam-")
-
-    user_name = StringVar()
-    password = StringVar()
-
-    login_canvas = Canvas(login, width=720, height=440, bg="white")
-    login_canvas.pack()
-
-    login_frame = Frame(login_canvas, bg="white")
-    login_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-
-    heading = Label(login_frame, text="Login", fg="black", bg="white")
-    heading.config(font=('calibri 40'))
-    heading.place(relx=0.4, rely=0.1)
-
-    # email Verification code
-    ulabel = Label(login_frame, text="Email Verification code", fg='black', bg='white')
-    ulabel.place(relx=0.15, rely=0.4)
-    uname = Entry(login_frame, bg='#d3d3d3', fg='black', textvariable=user_name)
-    uname.config(width=42)
-    uname.place(relx=0.31, rely=0.4)
-
-    # Test code
-    plabel = Label(login_frame, text="Test Code", fg='black', bg='white')
-    plabel.place(relx=0.15, rely=0.5)
-    pas = Entry(login_frame, bg='#d3d3d3', fg='black', show="*", textvariable=password)
-    pas.config(width=42)
-    pas.place(relx=0.31, rely=0.5)
-    email_code = uname.get()
-    test_code = pas.get()
-
-    # error = Label(login_frame,text="Wrong Username or Password!",fg='black',bg='white')
-    # error.place(relx=0.37,rely=0.7)
-
-    # LOGIN BUTTON
-    log = Button(login_frame, text='Login', padx=5, pady=5, width=5, command=check)
-    log.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT, bg="green")
-    log.place(relx=0.4, rely=0.6)
-
-    login.mainloop()
+import webbrowser
+from client import *  #backend
+import re
+regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
+global data,penalties,q
+data={}
+penalties=0
+#load Question paper from Server
+try:
+    q=get_questions()
+except:
+       try:
+           q=get_questions()
+       except ValueError as val_e:
+           print("error",val_e,"occured")
+#verify email format
+def check(email):
+    if (re.search(regex, email)):
+        return True
+    else:
+        return False
 
 def signUpPage():
     root.destroy()
@@ -120,7 +33,7 @@ def signUpPage():
     sup_canvas.pack()
     sup_frame = Frame(sup_canvas,bg="white")
     sup_frame.place(relwidth=0.7,relheight=0.8,relx=0.1,rely=0.1)
-    heading = Label(sup_frame,text="Login",fg="black",bg="white")
+    heading = Label(sup_frame,text="LOGIN",fg="black",bg="white")
     heading.config(font=('calibri 40'))
     heading.place(relx=0.4,rely=0.1)
     #full name
@@ -138,30 +51,20 @@ def signUpPage():
     def addUserToDataBase():
         fullname = fname.get()
         email = user.get()
-        if len(fullname)<3 or len(email)<3:
-            error = Label(login_frame, text="Enter Valid Name & Email!", fg='black', bg='white')
-            error.place(relx=0.37,rely=0.7)
+        if(len(fullname)<4 or not(check(email))):
+            error = Label(sup_frame, text="Enter Valid Name & Email!", fg='black', bg='white')
+            error.place(relx=0.40,rely=0.7)
         else:
-            code = verification(email)
-            l=[fullname,email,code]
-            Join(l)
-    def addUserToDataBase2():
-        fullname = fname.get()
-        email = user.get()
-        l=[fullname,email]
-        Create(l)
+            data["name"] = fullname
+            data["email"] = email
+            menu()
     #JOIN BUTTON
-    sp = Button(sup_frame,text='JOIN TEST',padx=5,pady=5,width=5,command = addUserToDataBase,bg='green')
+    sp = Button(sup_frame,text='LOGIN',padx=5,pady=5,width=5,command = addUserToDataBase,bg='green')
     sp.configure(width = 15,height=1, activebackground = "#33B5E5", relief = FLAT)
-    sp.place(relx=0.45,rely=0.8)
-    #CREATE BUTTON
-    log = Button(sup_frame,text='CREATE TEST',padx=5,pady=5,width=5,command = addUserToDataBase2,bg="white",fg='blue')
-    log.configure(width = 15,height=1, activebackground = "#33B5E5", relief = FLAT)
-    log.place(relx=0.45,rely=0.9)
-    sup.mainloop()
+    sp.place(relx=0.43,rely=0.8)
 
 def menu():
-    login.destroy()
+    sup.destroy()
     global menu,canvas
     menu = Tk()
     menu.title("-Texam-")
@@ -170,14 +73,13 @@ def menu():
     img = PhotoImage(file="Guide.png")
     canvas.create_image(0, 0, image=img, anchor=NW)
     button = Button(menu, text='START', command=easy)
-    button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,
-                     font='Helvetica 18 bold')
+    button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,font='Helvetica 18 bold')
     button.grid(column=0, row=2)
     menu.mainloop()
 def easy():
     timer = Label(menu)
     timer.place(relx=0.6, rely=0.925, anchor=CENTER)
-    for k in range(60, 0, -1):
+    for k in range(30, 0, -1):
         timer.configure(text=k)
         canvas.update()
         time.sleep(1)
@@ -188,149 +90,58 @@ def easy():
     easy_canvas.pack()
     easy_frame = Frame(easy_canvas,bg="white")
     easy_frame.place(relwidth=0.9,relheight=0.9,relx=0.05,rely=0.05)
-
-    
-    def countDown():
-        check = 0
-        for k in range(90, 0, -1):
-            
-            if k == 1:
-                check=-1
+    ch = q[0]["choices"]
+    que = q[0]["que"]
+    id = q[0]["id"]
+    responses={}
+    ques = Label(easy_frame, text=que, font="calibri 12", bg="white")
+    ques.place(relx=0.5, rely=0.2, anchor=CENTER)
+    var = StringVar()
+    a = Radiobutton(easy_frame, text=ch[0], font="calibri 10", value=ch[0], variable=var, bg="white")
+    a.place(relx=0.5, rely=0.42, anchor=CENTER)
+    b = Radiobutton(easy_frame, text=ch[1], font="calibri 10", value=ch[1], variable=var, bg="white")
+    b.place(relx=0.5, rely=0.52, anchor=CENTER)
+    c = Radiobutton(easy_frame, text=ch[2], font="calibri 10", value=ch[2], variable=var, bg="white")
+    c.place(relx=0.5, rely=0.62, anchor=CENTER)
+    d = Radiobutton(easy_frame, text=ch[3], font="calibri 10", value=ch[3], variable=var, bg="white")
+    d.place(relx=0.5, rely=0.72, anchor=CENTER)
+    timer = Label(e)
+    timer.place(relx=0.8, rely=0.8, anchor=CENTER)
+    for k in range(30, 0, -1):
+        timer.configure(text=k)
+        easy_frame.update()
+        time.sleep(1)
+    timer.configure(text="Times up!")
+    responses[id]=var.get()
+    for i in q[1:]:
+        ch = i["choices"]
+        que = i["que"]
+        id = i["id"]
+        ques.configure(text=que)
+        a.configure(text=ch[0], value=ch[0])
+        b.configure(text=ch[1], value=ch[1])
+        c.configure(text=ch[2], value=ch[2])
+        d.configure(text=ch[3], value=ch[3])
+        for k in range(30, 0, -1):
             timer.configure(text=k)
             easy_frame.update()
             time.sleep(1)
-            
         timer.configure(text="Times up!")
-        if check==-1:
-            calc()
-            return (-1)
-        else:
-            return 0
-    global score
-    score = 0
-    
-    easyQ = [
-                 [
-                     "What will be the output of the following Python code? \nl=[1, 0, 2, 0, 'hello', '', []] \nlist(filter(bool, nl))",
-                     "[1, 0, 2, ‘hello’, '', []]",
-                     "Error",
-                     "[1, 2, ‘hello’]",
-                     "[1, 0, 2, 0, ‘hello’, '', []]" 
-                 ] ,
-                 [
-                     "What will be the output of the following Python expression if the value of x is 34? \nprint(“%f”%x)" ,
-                    "34.00",
-                    "34.000000",
-                    "34.0000",
-                    "34.00000000"
-                     
-                 ],
-                [
-                    "What will be the value of X in the following Python expression? \nX = 2+9*((3*12)-8)/10" ,
-                    "30.8",
-                    "27.2",
-                    "28.4",
-                    "30.0"
-                ],
-                [
-                    "Which of these in not a core data type?" ,
-                    "Tuples",
-                    "Dictionary",
-                    "Lists",
-                    "Class"
-                ],
-                [
-                    "Which of the following represents the bitwise XOR operator?" ,
-                    "&",
-                    "!",
-                    "^",
-                    "|"
-                ]
-            ]
-    answer = [
-                "[1, 2, ‘hello’]",
-                "34.000000",
-                "27.2",
-                "Class",
-                "^"
-             ]
-    li = ['',0,1,2,3,4]
-    x = random.choice(li[1:])
-    
-    ques = Label(easy_frame,text =easyQ[x][0],font="calibri 12",bg="white")
-    ques.place(relx=0.5,rely=0.2,anchor=CENTER)
-
-    var = StringVar()
-    
-    a = Radiobutton(easy_frame,text=easyQ[x][1],font="calibri 10",value=easyQ[x][1],variable = var,bg="white")
-    a.place(relx=0.5,rely=0.42,anchor=CENTER)
-
-    b = Radiobutton(easy_frame,text=easyQ[x][2],font="calibri 10",value=easyQ[x][2],variable = var,bg="white")
-    b.place(relx=0.5,rely=0.52,anchor=CENTER)
-
-    c = Radiobutton(easy_frame,text=easyQ[x][3],font="calibri 10",value=easyQ[x][3],variable = var,bg="white")
-    c.place(relx=0.5,rely=0.62,anchor=CENTER) 
-
-    d = Radiobutton(easy_frame,text=easyQ[x][4],font="calibri 10",value=easyQ[x][4],variable = var,bg="white")
-    d.place(relx=0.5,rely=0.72,anchor=CENTER) 
-    
-    li.remove(x)
-    
-    timer = Label(e)
-    timer.place(relx=0.8,rely=0.82,anchor=CENTER)
-
-    def display():
-        
-        if len(li) == 1:
-                e.destroy()
-                showMark(score)
-        if li:
-            x = random.choice(li[1:])
-            ques.configure(text =easyQ[x][0])
-            
-            a.configure(text=easyQ[x][1],value=easyQ[x][1])
-      
-            b.configure(text=easyQ[x][2],value=easyQ[x][2])
-      
-            c.configure(text=easyQ[x][3],value=easyQ[x][3])
-      
-            d.configure(text=easyQ[x][4],value=easyQ[x][4])
-            
-            li.remove(x)
-            print(li)
-            y = countDown()
-            if y == -1:
-                display()
-
-            
-    def calc():
-        global score
-        if (var.get() in answer):
-            score+=1
-        display()
-
-    y = countDown()
-    if y == -1:
-        display()
+        responses[id] = var.get()
+    else:
+        e.destroy()
+        data["responses"]=responses
+        data["penalties"]=penalties
+        try:
+            post_responses(data)
+        except:
+            try:
+                post_responses(data)
+            except ValueError as val_e:
+                print("error", val_e, "occured")
+        webbrowser.open('https://stackapi.vercel.app/', new=2)
     e.mainloop()
-    
-    
 
-def showMark(mark):
-    global sh
-    sh = Tk()
-    
-    show_canvas = Canvas(sh,width=720,height=440,bg="#101357")
-    show_canvas.pack()
-
-    show_frame = Frame(show_canvas,bg="white")
-    show_frame.place(relwidth=0.8,relheight=0.8,relx=0.1,rely=0.1)
-    
-    st = "Your score is "+str(mark)
-    mlabel = Label(show_canvas,text=st,fg="black")
-    mlabel.place(relx=0.5,rely=0.2,anchor=CENTER)
-    
-    sh.mainloop()
 def start():
     global root 
     root = Tk()
@@ -339,11 +150,9 @@ def start():
     canvas.grid(column = 0 , row = 1)
     img = PhotoImage(file="back.png")
     canvas.create_image(0,0,image=img,anchor=NW)
-
     button = Button(root, text='START',command = signUpPage)
     button.configure(width = 46,height=2, activebackground = "#33B5E5", bg ='green', relief = RAISED,font='Helvetica 18 bold')
     button.grid(column = 0 , row = 2)
-
     root.mainloop()
     
     
