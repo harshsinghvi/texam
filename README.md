@@ -10,4 +10,5 @@
     <h3>/get-data</h3>
     <h3>/test-connection</h3>
     <h3>/scores</h3>
-    <h3>/delete</h3>
+    <h3>/delete</h3>   
+    <h3>/responses</h3>
