@@ -99,11 +99,12 @@ def func():
 @app.route('/scores',methods=['GET','POST'])
 def scores():
     scores=mongo.db.scores.find()
-    data={"scores": [] }
+    data={ "scores": [] }
     for i in scores:
         i.pop("_id")
         data['scores'].append(i)
-    return data
+    sorted_data = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
+    return sorted_data
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
