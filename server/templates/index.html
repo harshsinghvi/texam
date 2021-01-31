@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>T Exam</title>
+    <style>
+        body          { color: #eee; background: #121212; font:sans-serif; }
+        h1            { color: white;font-size: 500%; }
+        h2            { color: rgb(255, 240, 23);font-size: 200%; }
+        p             { color: red; }
+        button        { color: #0366D6; background-color: #212121; }
+        table, th, td { border: 1px solid black; border-spacing: 0px; font-size: larger; }         
+    </style>
+<link rel='shortcut icon' type='image/x-icon' href='/static/favicon.ico' />
+</head>
+
+<body style="text-align:center;" id="body">
+<script>
+    // const URL="https://stackapi.vercel.app";
+    const URL="http://localhost:5000";
+    async function main(){
+        var url = URL+"/scores";
+        const response = await fetch(url);
+        var data = await response.json();
+        var html = '<tr> <th>Rank</th> <th>Name</th> <th>Score</th> <th>Penalties</th> <th> Total </th>  </tr>';
+        one = parseInt("1")
+        for(i in data['scores'])
+        {
+            html = html + '  <tr> <td>'+(parseInt(i)+ one)+'</td> <td>'+ data['scores'][i]['name'] +'</td>  <td>' + data['scores'][i]['score'] +'</td> <td style = "color:red" >'+data['scores'][i]['penalties']+'</td><td style = "color:green">'+ data['scores'][i]['total']+'</td>   </tr>'
+        }
+        document.getElementById("data").innerHTML=html;
+        document.getElementById("status").innerText="* Maximum Marks = "+data["max_marks"];
+    }
+    main();
+</script>
+
+    <h1 style="color:#0366D6;">T Exam</h1>
+    <h2>Exam Results</h2>
+    <br>
+    <center>
+        <div style="color: green ;" id="status">Loading ... Please Wait</div>
+        <table style="width:70%" id="data"> 
+        <!-- For printing data from server -->
+        </table>
+    </center>
+    
+</body>
+</html>
