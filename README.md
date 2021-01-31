@@ -1,9 +1,9 @@
-# online-exam
+# TEXAM
 
 
 ## Doccumentation
 
-> this site is a prototype API for online assisment and forms collection
+> This site is a prototype API for online assisment and forms collection
 
 ### Use Following Resources:- 
 
