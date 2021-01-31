@@ -21,7 +21,10 @@ def check(email):
         return True
     else:
         return False
-
+def lead():
+    webbrowser.open(URL, new=2)
+def res():
+    webbrowser.open('https://texam.projects.harshsinghvi.com/responses', new=2)
 def signUpPage():
     root.destroy()
     global sup
@@ -76,16 +79,38 @@ def menu():
     button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,font='Helvetica 18 bold')
     button.grid(column=0, row=2)
     menu.mainloop()
+
+def showMark(mark):
+    e.destroy()
+    global sh
+    sh = Tk()
+    sh.title("-RESULT-")
+    total=int((mark['total']))
+    per=total*5
+    show_canvas = Canvas(sh,width=720,height=440,bg="black")
+    show_canvas.pack()
+    show_frame = Frame(show_canvas,bg="white")
+    show_frame.place(relwidth=0.8,relheight=0.8,relx=0.1,rely=0.1)
+    st = "Your score is "+str(total)+" out of 20. i.e "+str(per)+"%"
+    mlabel = Label(show_canvas,text=st,fg="black")
+    mlabel.place(relx=0.5,rely=0.2,anchor=CENTER)
+    sp = Button(show_frame, text='LeaderBoard', padx=5, pady=5, width=5, command=lead, bg='green')
+    sp.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
+    sp.place(relx=0.40, rely=0.6)
+    st= Button(show_frame, text='Responses', padx=5, pady=5, width=5, command=res, bg='green')
+    st.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
+    st.place(relx=0.40, rely=0.70)
 def easy():
     timer = Label(menu)
     timer.place(relx=0.6, rely=0.925, anchor=CENTER)
-    for k in range(30, 0, -1):
+    for k in range(10, 0, -1):
         timer.configure(text=k)
         canvas.update()
         time.sleep(1)
     menu.destroy()
     global e
     e = Tk()
+    e.title("-Texam-")
     easy_canvas = Canvas(e,width=720,height=440,bg="black")
     easy_canvas.pack()
     easy_frame = Frame(easy_canvas,bg="white")
@@ -107,12 +132,13 @@ def easy():
     d.place(relx=0.5, rely=0.72, anchor=CENTER)
     timer = Label(e)
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
-    for k in range(30, 0, -1):
+    for k in range(10, 0, -1):
         timer.configure(text=k)
         easy_frame.update()
         time.sleep(1)
     timer.configure(text="Times up!")
     responses[id]=var.get()
+    var.set("")
     for i in q[1:]:
         ch = i["choices"]
         que = i["que"]
@@ -122,24 +148,25 @@ def easy():
         b.configure(text=ch[1], value=ch[1])
         c.configure(text=ch[2], value=ch[2])
         d.configure(text=ch[3], value=ch[3])
-        for k in range(30, 0, -1):
+        for k in range(10, 0, -1):
             timer.configure(text=k)
             easy_frame.update()
             time.sleep(1)
         timer.configure(text="Times up!")
         responses[id] = str(var.get())
+        var.set("")
     else:
-        e.destroy()
         data["responses"]=responses
         data["penalties"]=str(penalties)
         try:
-            post_responses(data)
+            r=post_responses(data)
+            showMark(r)
         except:
             try:
-                post_responses(data)
+                r=post_responses(data)
+                showMark(r)
             except ValueError as val_e:
                 print("error", val_e, "occured")
-        webbrowser.open(URL, new=2)
     e.mainloop()
 
 def start():
