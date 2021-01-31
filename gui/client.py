@@ -1,13 +1,13 @@
 import requests
-#import json
-#import jsonify
+import json 
+import jsonify
 
 
 class Request_error:
     pass
 
 URL = 'https://online-exam-pi.vercel.app'
-#URL = 'http://localhost:5000'
+# URL = 'http://localhost:5000'
 
 def get_questions():
     req = requests.get(URL+'/questions')
@@ -33,7 +33,7 @@ def test_connection():
 def post_responses(data):
     req = requests.post(URL+'/store-responses',json=data)
     if req.status_code == 200:  
-        return req.text
+        return req.json()
     else:
         raise Request_error
 
@@ -109,112 +109,33 @@ questions=[
 # Get Response data
 
 response_data = [
+    [
     {
-        "email": "Harsh",
-        "name": "Harsh",
+        "email": "email@email.com",
+        "name": "Sample Data",
+        "penalties": "2",
         "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
+            "101": "[1, 2, ‘hello’]",
+            "201": "34.000000",
+            "301": "27.2",
+            "401": "Class",
+            "501": "^"
         },
-        "timestamp": "2020-10-20 21:19:04.190268",
-        "uid": "5f8f06f08efd58423bedc2c5"
+        "timestamp": "2021-01-31 13:21:21.244648",
+        "uid": "6016617922d40e8cc43159bf"
     },
     {
-        "email": "Harsh",
-        "name": "Harsh",
+        "email": "email@email.com",
+        "name": "Sample Data",
+        "penalties": "2",
         "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
+            "101": "[1, 2, ‘hello’]",
+            "201": "34.000000",
+            "301": "27.2",
+            "401": "Class",
+            "501": "^"
         },
-        "timestamp": "2020-10-20 21:19:58.667720",
-        "uid": "5f8f07267a259a5192fc2cbe"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2020-10-20 21:44:29.756754",
-        "uid": "5f8f0ce5b5350ade22e49de4"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2020-10-20 21:46:40.983758",
-        "uid": "5f8f0d6829175530e1142e70"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2020-10-21 11:59:59.718253",
-        "uid": "5f8fd567cfd89ead5df53327"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2021-01-28 16:11:52.597323",
-        "uid": "6012e248ac4b558ced8cf1f1"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2021-01-31 06:48:31.346862",
-        "uid": "601652bf8f4cdf16a1ade555"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2021-01-31 12:27:19.419715",
-        "uid": "601654cfbc4e71937190d94b"
-    },
-    {
-        "email": "Harsh",
-        "name": "Harsh",
-        "responses": {
-            "101": "1",
-            "201": "2",
-            "301": "4",
-            "401": "3"
-        },
-        "timestamp": "2021-01-31 12:30:21.435059",
-        "uid": "60165585bc4e71937190d94c"
+        "timestamp": "2021-01-31 13:22:26.432631",
+        "uid": "601661ba22d40e8cc43159c0"
     }
 ]
