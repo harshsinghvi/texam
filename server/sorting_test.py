@@ -1,6 +1,6 @@
 import requests 
 
-r = requests.get(url="https://online-exam-pi.vercel.app/scores")
+r = requests.get(url="https://texam.projects.harshsinghvi.com/scores")
 
 data=r.json()
 

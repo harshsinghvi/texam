@@ -6,7 +6,7 @@ import requests
 class Request_error:
     pass
 
-URL = 'https://online-exam-pi.vercel.app'
+URL = 'https://texam.projects.harshsinghvi.com'
 # URL = 'http://localhost:5000'
 
 def get_questions():

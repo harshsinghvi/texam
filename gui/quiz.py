@@ -139,7 +139,7 @@ def easy():
                 post_responses(data)
             except ValueError as val_e:
                 print("error", val_e, "occured")
-        webbrowser.open('https://online-exam-pi.vercel.app/', new=2)
+        webbrowser.open(URL, new=2)
     e.mainloop()
 
 def start():
