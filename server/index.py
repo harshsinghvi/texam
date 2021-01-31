@@ -63,6 +63,7 @@ def store_responses():
         return score,200
     return "ERROR",404
 
+@cross_origin()
 @app.route('/get-data',methods=['GET','POST'])
 def get_data():
     dbResponses=mongo.db.responses.find()
@@ -101,7 +102,8 @@ def delete(resource_type,resource_uid):
 @app.route('/test-connection',methods=['GET','POST'])
 def func():
     return "OK",200
-
+    
+@cross_origin()
 @app.route('/scores',methods=['GET','POST'])
 def scores():
     scores=mongo.db.scores.find()
