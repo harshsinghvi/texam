@@ -31,6 +31,8 @@ for i in temp['responses']:
     if temp['responses'][i] == ans[i]:
         print(temp['responses'][i] + " correct")
         sc = sc + 4
+    elif temp['responses'][i] == None:
+        pass
     else: 
         print(temp['responses'][i] + " wrong")
         sc = sc -1
