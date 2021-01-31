@@ -103,7 +103,6 @@ def scores():
     for i in scores:
         i.pop("_id")
         data['scores'].append(i)
-        # del data["scores"][-1]["_id"]
     return data
 
 if __name__ == "__main__":
