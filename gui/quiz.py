@@ -1,7 +1,7 @@
 from tkinter import *
 import time
 import webbrowser
-from client import *  #backend
+from client import *
 import re
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
 global data,penalties,q
