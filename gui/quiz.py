@@ -127,11 +127,11 @@ def easy():
             easy_frame.update()
             time.sleep(1)
         timer.configure(text="Times up!")
-        responses[id] = var.get()
+        responses[id] = str(var.get())
     else:
         e.destroy()
         data["responses"]=responses
-        data["penalties"]=penalties
+        data["penalties"]=str(penalties)
         try:
             post_responses(data)
         except:
