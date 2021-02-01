@@ -103,7 +103,7 @@ def delete(resource_type,resource_uid):
 @app.route('/delete/<resource_type>',methods=['POST'])
 def delete_pattern(resource_type):
     pattern=request.get_json()
-    res=str(resource_type)+" with"+str(pattern)
+    res=str(resource_type)+" with "+str(pattern)
     if resource_type in ["question","que"]:
         mongo.db.questions.delete_many(pattern)
     elif resource_type in ["answer","ans"]:
