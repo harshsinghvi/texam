@@ -2,6 +2,10 @@ import requests
 #import json
 #import jsonify
 
+QUESTION = 'que'
+SCORES = 'sc'
+RESPONSES = 'res'
+ANSWER = 'ans'
 
 class Request_error:
     pass
@@ -58,7 +62,7 @@ def delete_one(resource_type, resource_uid):
         raise Request_error
 
 def delete_many(resource_type, data):
-    req = requests.post(URL+'/delete/{}/{}'.format(resource_type ),json=data)
+    req = requests.post(URL+'/delete/{}'.format(resource_type),json=data)
     if req.status_code == 200:  
         return req.text
     else:
