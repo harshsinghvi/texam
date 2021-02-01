@@ -54,6 +54,8 @@ def store_responses():
     for i in temp['responses']:
         if temp['responses'][i] == ans[i]:
             sc = sc + 4
+        elif temp['responses'][i] == '':
+            pass
         else: 
             sc = sc -1
 
@@ -64,7 +66,7 @@ def store_responses():
     return "ERROR",404
 
 @cross_origin()
-@app.route('/get-data',methods=['GET','POST'])
+@app.route('/get-data',methods=['GET'])
 def get_data():
     dbResponses=mongo.db.responses.find()
     dict=[]
@@ -81,7 +83,7 @@ def get_data():
     dict.reverse()
     return jsonify(dict)
 
-@app.route('/delete/<resource_type>/<resource_uid>',methods=['DELETE'])
+@app.route('/delete/<resource_type>/<resource_uid>',methods=['POST'])
 def delete(resource_type,resource_uid):
     # try:
     if resource_type in ["question","que"]:
@@ -104,7 +106,7 @@ def func():
     return "OK",200
     
 @cross_origin()
-@app.route('/scores',methods=['GET','POST'])
+@app.route('/scores',methods=['GET'])
 def scores():
     scores=mongo.db.scores.find()
     data={ "scores": [] }

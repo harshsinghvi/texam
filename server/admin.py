@@ -36,7 +36,12 @@ def post_responses(data):
         return req.json()
     else:
         raise Request_error
-
+def get_scores():
+    req = requests.get(URL+'/scores')
+    if req.status_code == 200:  
+        return req.json()
+    else:
+        raise Request_error
 # post_responses
 sample_data={
 
