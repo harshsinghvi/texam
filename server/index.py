@@ -106,7 +106,7 @@ def func():
     return "OK",200
 
 @app.route('/delete',methods=['GET','POST'])
-def delete_sample_data():
+def delete_with_patterns():
     scores = mongo.db.scores.delete_many({"name":"Sample Data"})
     responses = mongo.db.responses.delete_many({"name":"Sample Data"})
     return "Delete OK",200
