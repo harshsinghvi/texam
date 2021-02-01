@@ -1,7 +1,4 @@
 import requests
-#import json
-#import jsonify
-
 
 class Request_error:
     pass
