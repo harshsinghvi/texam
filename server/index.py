@@ -100,9 +100,16 @@ def delete(resource_type,resource_uid):
     #     message=str(resource_type)+" "+str(resource_uid)+": Is invalid"
     #     return message,400
     return "Unexpected Error",400
-    
+
 @app.route('/test-connection',methods=['GET','POST'])
 def func():
+    return "OK",200
+
+
+@app.route('/delete-sample-data',methods=['GET','POST'])
+def delete_sample_data():
+    scores = mongo.db.scores.delete_many({"name":"Sample Data"})
+    responses = mongo.db.responses.delete_many({"name":"Sample Data"})
     return "OK",200
     
 @cross_origin()

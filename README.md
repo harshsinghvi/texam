@@ -14,3 +14,4 @@
 * /scores
 * /delete   
 * /responses
+* /delete-sample-data
