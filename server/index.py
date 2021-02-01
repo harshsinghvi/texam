@@ -101,7 +101,7 @@ def delete(resource_type,resource_uid):
     return  res + ": Delete OK",200   
 
 @app.route('/delete/<resource_type>',methods=['POST'])
-def delete(resource_type):
+def delete_pattern(resource_type):
     res=str(resource_type)+" "+str(resource_uid)
     pattern=request.get_json()
     if resource_type in ["question","que"]:
