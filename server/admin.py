@@ -42,6 +42,21 @@ def get_scores():
         return req.json()
     else:
         raise Request_error
+
+def delete_sample_data():
+    req = requests.get(URL+'/delete-sample-data')
+    if req.status_code == 200:  
+        return req.text
+    else:
+        raise Request_error
+
+def delete(data):
+    req = requests.post(URL+'/delete',json=data)
+    if req.status_code == 200:  
+        return req.text
+    else:
+        raise Request_error
+
 # post_responses
 sample_data={
 

@@ -61,7 +61,8 @@ def store_responses():
 
     score={ "name":temp["name"],"score":str(sc),"penalties": str(pen),"total":str( sc - int(pen / 3)) }
     if que.insert_one(temp).acknowledged and scores.insert_one(score).acknowledged:
-        score.pop("_id") 
+        score["uid"]=str(score["_id"])
+        score.pop("_id")
         return score,200
     return "ERROR",404
 
@@ -83,35 +84,39 @@ def get_data():
     dict.reverse()
     return jsonify(dict)
 
+
 @app.route('/delete/<resource_type>/<resource_uid>',methods=['POST'])
 def delete(resource_type,resource_uid):
     # try:
+    res=str(resource_type)+" "+str(resource_uid)
     if resource_type in ["question","que"]:
         mongo.db.questions.delete_one({"_id" : resource_uid})
-        message=str(resource_type)+" "+str(resource_uid)+": Delete OK"
-        return message,400        
-    if resource_type in ["response","res"]:
+    elif resource_type in ["answer","ans"]:
+        mongo.db.answers.delete_one({"_id" : resource_uid})
+    elif resource_type in ["score","sc"]:
+        mongo.db.scores.delete_one({"_id" : resource_uid})
+    elif resource_type in ["response","res"]:
         mongo.db.responses.delete_one({"_id" : resource_uid})
-        message=str(resource_type)+" "+str(resource_uid)+": Delete OK"
-        return message,400
     else: 
-        raise
-    # except None:
-    #     message=str(resource_type)+" "+str(resource_uid)+": Is invalid"
-    #     return message,400
-    return "Unexpected Error",400
+        return res+ ": NO Resource found",400
+    return  res + ": Delete OK",200   
 
 @app.route('/test-connection',methods=['GET','POST'])
 def func():
     return "OK",200
 
+@app.route('/delete',methods=['GET','POST'])
+def delete_sample_data():
+    scores = mongo.db.scores.delete_many({"name":"Sample Data"})
+    responses = mongo.db.responses.delete_many({"name":"Sample Data"})
+    return "Delete OK",200
 
 @app.route('/delete-sample-data',methods=['GET','POST'])
 def delete_sample_data():
     scores = mongo.db.scores.delete_many({"name":"Sample Data"})
     responses = mongo.db.responses.delete_many({"name":"Sample Data"})
-    return "OK",200
-    
+    return "Delete OK",200
+
 @cross_origin()
 @app.route('/scores',methods=['GET'])
 def scores():
