@@ -49,8 +49,15 @@ def delete_sample_data():
         return req.text
     else:
         raise Request_error
+    
+def delete_one(resource_type, resource_uid):
+    req = requests.post(URL+'/delete/{}/{}'.format(resource_type,resource_uid))
+    if req.status_code == 200:  
+        return req.text
+    else:
+        raise Request_error
 
-def delete(data):
+def delete_many(data):
     req = requests.post(URL+'/delete',json=data)
     if req.status_code == 200:  
         return req.text

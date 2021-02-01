@@ -2,7 +2,7 @@ import flask
 import json
 from flask import request, jsonify
 from flask_cors import CORS, cross_origin
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo,ObjectId
 from flask import render_template
 
 from datetime import datetime
@@ -87,16 +87,15 @@ def get_data():
 
 @app.route('/delete/<resource_type>/<resource_uid>',methods=['POST'])
 def delete(resource_type,resource_uid):
-    # try:
     res=str(resource_type)+" "+str(resource_uid)
     if resource_type in ["question","que"]:
-        mongo.db.questions.delete_one({"_id" : resource_uid})
+        mongo.db.questions.delete_one({"_id" : ObjectId(resource_uid)})
     elif resource_type in ["answer","ans"]:
-        mongo.db.answers.delete_one({"_id" : resource_uid})
+        mongo.db.answers.delete_one({"_id" : ObjectId(resource_uid)})
     elif resource_type in ["score","sc"]:
-        mongo.db.scores.delete_one({"_id" : resource_uid})
+        mongo.db.scores.delete_one({"_id" : ObjectId(resource_uid)})
     elif resource_type in ["response","res"]:
-        mongo.db.responses.delete_one({"_id" : resource_uid})
+        mongo.db.responses.delete_one({"_id" : ObjectId(resource_uid)})
     else: 
         return res+ ": NO Resource found",400
     return  res + ": Delete OK",200   
@@ -123,6 +122,7 @@ def scores():
     scores=mongo.db.scores.find()
     data={ "scores": [] }
     for i in scores:
+        i['uid']=i["_id"]
         i.pop("_id")
         data['scores'].append(i)
     data["scores"] = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
