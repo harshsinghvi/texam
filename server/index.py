@@ -4,9 +4,12 @@ from flask import request, jsonify
 from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo,ObjectId
 from flask import render_template
-
+from pytz import timezone
 from datetime import datetime
+
 import settings
+
+IST = timezone('Asia/Kolkata') 
 
 #  APP CONFIG 
 app = flask.Flask(__name__)
@@ -46,10 +49,10 @@ def store_responses():
     ans=mongo.db.answers.find()[0]
     scores=mongo.db.scores
     temp=request.get_json()
-    temp['timestamp']=str(datetime.now())
+    temp['timestamp']=str(datetime.now(IST))
 
     sc=0
-    pen= int(temp['penalties'])
+    pen=int(temp['penalties'])
 
     for i in temp['responses']:
         if temp['responses'][i] == ans[i]:
