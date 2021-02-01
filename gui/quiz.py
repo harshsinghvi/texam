@@ -23,8 +23,6 @@ def check(email):
         return False
 def lead():
     webbrowser.open(URL, new=2)
-def res():
-    webbrowser.open('https://texam.projects.harshsinghvi.com/responses', new=2)
 def signUpPage():
     root.destroy()
     global sup
@@ -97,9 +95,6 @@ def showMark(mark):
     sp = Button(show_frame, text='LeaderBoard', padx=5, pady=5, width=5, command=lead, bg='green')
     sp.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
     sp.place(relx=0.40, rely=0.6)
-    st= Button(show_frame, text='Responses', padx=5, pady=5, width=5, command=res, bg='green')
-    st.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
-    st.place(relx=0.40, rely=0.70)
 def easy():
     timer = Label(menu)
     timer.place(relx=0.6, rely=0.925, anchor=CENTER)
