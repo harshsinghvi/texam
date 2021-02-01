@@ -122,7 +122,7 @@ def scores():
     scores=mongo.db.scores.find()
     data={ "scores": [] }
     for i in scores:
-        i['uid']=i["_id"]
+        i['uid']=str(i["_id"])
         i.pop("_id")
         data['scores'].append(i)
     data["scores"] = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
