@@ -85,7 +85,7 @@ def get_data():
     return jsonify(dict)
 
 
-@app.route('/delete/<resource_type>/<resource_uid>',methods=['POST'])
+@app.route('/delete/<resource_type>/<resource_uid>',methods=['GET','POST'])
 def delete(resource_type,resource_uid):
     res=str(resource_type)+" "+str(resource_uid)
     if resource_type in ["question","que"]:
@@ -100,15 +100,25 @@ def delete(resource_type,resource_uid):
         return res+ ": NO Resource found",400
     return  res + ": Delete OK",200   
 
+@app.route('/delete/<resource_type>',methods=['POST'])
+def delete(resource_type):
+    res=str(resource_type)+" "+str(resource_uid)
+    pattern=request.get_json()
+    if resource_type in ["question","que"]:
+        mongo.db.questions.delete_many(pattern)
+    elif resource_type in ["answer","ans"]:
+        mongo.db.answers.delete_many(pattern)
+    elif resource_type in ["score","sc"]:
+        mongo.db.scores.delete_many(pattern)
+    elif resource_type in ["response","res"]:
+        mongo.db.responses.delete_many(pattern)
+    else: 
+        return res+ ": NO Resource found",400
+    return  res + ": Delete OK",200   
+
 @app.route('/test-connection',methods=['GET','POST'])
 def func():
     return "OK",200
-
-@app.route('/delete',methods=['GET','POST'])
-def delete_with_patterns():
-    scores = mongo.db.scores.delete_many({"name":"Sample Data"})
-    responses = mongo.db.responses.delete_many({"name":"Sample Data"})
-    return "Delete OK",200
 
 @app.route('/delete-sample-data',methods=['GET','POST'])
 def delete_sample_data():
