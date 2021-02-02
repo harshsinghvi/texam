@@ -20,3 +20,7 @@ jobs:
     - name: build with pyinstaller
       run: |
         pyinstaller ./gui/quiz.py
+    - uses: actions/upload-artifact@v2
+      with:
+        name: python-exe
+        path: dist/quiz.exe
