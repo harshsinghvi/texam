@@ -63,6 +63,7 @@ def store_responses():
             sc = sc -1
 
     score={ "name":temp["name"],"score":str(sc),"penalties": str(pen),"total":str( sc - int(pen / 3)) }
+    
     if que.insert_one(temp).acknowledged and scores.insert_one(score).acknowledged:
         score["uid"]=str(score["_id"])
         score.pop("_id")
