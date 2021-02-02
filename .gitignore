@@ -129,4 +129,4 @@ dmypy.json
 .pyre/
 
 .vercel
-.DS_Store/
+.DS_Store
