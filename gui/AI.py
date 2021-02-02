@@ -3,11 +3,34 @@ import numpy as np
 import math
 global cap
 cap = cv2.VideoCapture(0)
+Path = "haarcascade_frontalface_default.xml"
+faceCascade = cv2.CascadeClassifier(Path)
+def duke(x,y,w,h,frame):
+    area=w*h
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    if area>20000 and area<30000:
+        cv2.putText(frame, 'Go Back!', (0, 450), font, 2, (255, 0, 0), 3, cv2.LINE_AA)
+        return False
+    if area>30000:
+        cv2.putText(frame, 'Penalty+1', (0, 450), font, 2, (255, 0, 0), 3, cv2.LINE_AA)
+        return True
+
 def update():
     su=0
+    flag=False
     try:
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = faceCascade.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30)
+        )
+        for (x1, y1, w1, h1) in faces:
+            cv2.rectangle(frame, (x1, y1), (x1 + w1, y1 + h1), (255, 0,0), 2)
+            flag=duke(x1, y1, w1, h1, frame)
         kernel = np.ones((3, 3), np.uint8)
         x=100
         y=100
@@ -83,7 +106,19 @@ def update():
     except:
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = faceCascade.detectMultiScale(
+            gray,
+            scaleFactor=1.1,
+            minNeighbors=5,
+            minSize=(30, 30)
+        )
+        for (x1, y1, w1, h1) in faces:
+            cv2.rectangle(frame, (x1, y1), (x1 + w1, y1 + h1), (255, 0,0), 2)
+            flag=duke(x1, y1, w1, h1, frame)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.imshow('frame', frame)
     k = cv2.waitKey(5) & 0xFF
-    return su
+    return su,flag
+
+

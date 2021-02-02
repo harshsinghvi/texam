@@ -12,15 +12,21 @@ penalties=0
 def me(ch):
     s=''
     lst=[]
+    dope=False
     for i in range(5):
-        lst.append(update())
+        x,flag=update()
+        if flag==True:
+            dope=True
+        else:
+            dope=False
+        lst.append(x)
     a=max(set(lst), key=lst.count)
     if a==5:
-        return s
+        return s,flag
     elif a==0:
-        return 0
+        return 0,flag
     else:
-        return ch[a-1]
+        return ch[a-1],flag
 
 
 
@@ -120,6 +126,7 @@ def showMark(mark):
     sp.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
     sp.place(relx=0.40, rely=0.6)
 def easy():
+    global penalties
     timer = Label(menu)
     timer.place(relx=0.6, rely=0.950, anchor=CENTER)
     for k in range(60, 0, -1):
@@ -139,6 +146,8 @@ def easy():
     que = q[0]["que"]
     id = q[0]["id"]
     responses={}
+    for i in q:
+        responses[i["id"]]=''
     ques = Label(easy_frame, text=que, font="calibri 12", bg="white")
     ques.place(relx=0.5, rely=0.2, anchor=CENTER)
     var = StringVar()
@@ -154,10 +163,12 @@ def easy():
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
     for k in range(90, 0, -1):
         timer.configure(text=k)
-        z=me(ch)
+        z,flag=me(ch)
         if z!=0:
             var.set(z)
         easy_frame.update()
+        if flag:
+            penalties+=1
     timer.configure(text="Time out!")
     responses[id]=var.get()
     var.set("")
@@ -172,10 +183,12 @@ def easy():
         d.configure(text=ch[3], value=ch[3])
         for k in range(90, 0, -1):
             timer.configure(text=k)
-            z = me(ch)
+            z,flag = me(ch)
             if z != 0:
                 var.set(z)
             easy_frame.update()
+            if flag:
+                penalties+=1
         timer.configure(text="Time out!")
         responses[id] = str(var.get())
         var.set("")
