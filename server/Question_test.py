@@ -1,4 +1,4 @@
-from client import * 
+from admin import * 
 
 data = get_questions()
 
