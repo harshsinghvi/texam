@@ -140,7 +140,6 @@ questions=[
 # Get Response data
 
 response_data = [
-    [
     {
         "email": "email@email.com",
         "name": "Sample Data",
@@ -169,4 +168,4 @@ response_data = [
         "timestamp": "2021-01-31 13:22:26.432631",
         "uid": "601661ba22d40e8cc43159c0"
     }
-]]
+]
