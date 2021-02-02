@@ -2,11 +2,28 @@ from tkinter import *
 import time
 import webbrowser
 from client import *
+from AI import *
 import re
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
 global data,penalties,q
 data={}
 penalties=0
+
+def me(ch):
+    s=''
+    lst=[]
+    for i in range(5):
+        lst.append(update())
+    a=max(set(lst), key=lst.count)
+    if a==5:
+        return s
+    elif a==0:
+        return 0
+    else:
+        return ch[a-1]
+
+
+
 #load Question paper from Server
 try:
     q=get_questions()
@@ -15,18 +32,22 @@ except:
            q=get_questions()
        except ValueError as val_e:
            print("error",val_e,"occured")
+
 #verify email format
 def check(email):
     if (re.search(regex, email)):
         return True
     else:
         return False
+
 def lead():
     webbrowser.open(URL, new=2)
+
 def signUpPage():
     root.destroy()
     global sup
     sup = Tk()
+    sup.geometry("626x475+800+0")
     sup.title("-Texam-")
     fname = StringVar()
     uname = StringVar()
@@ -68,6 +89,7 @@ def menu():
     sup.destroy()
     global menu,canvas
     menu = Tk()
+    menu.geometry("626x475+800+0")
     menu.title("-Texam-")
     canvas = Canvas(menu, width=626, height=420)
     canvas.grid(column=0, row=1)
@@ -80,6 +102,8 @@ def menu():
 
 def showMark(mark):
     e.destroy()
+    cv2.destroyAllWindows()
+    cap.release()
     global sh
     sh = Tk()
     sh.title("-RESULT-")
@@ -97,14 +121,15 @@ def showMark(mark):
     sp.place(relx=0.40, rely=0.6)
 def easy():
     timer = Label(menu)
-    timer.place(relx=0.6, rely=0.925, anchor=CENTER)
-    for k in range(10, 0, -1):
+    timer.place(relx=0.6, rely=0.950, anchor=CENTER)
+    for k in range(60, 0, -1):
         timer.configure(text=k)
         canvas.update()
         time.sleep(1)
     menu.destroy()
     global e
     e = Tk()
+    e.geometry("626x475+800+0")
     e.title("-Texam-")
     easy_canvas = Canvas(e,width=720,height=440,bg="black")
     easy_canvas.pack()
@@ -127,11 +152,13 @@ def easy():
     d.place(relx=0.5, rely=0.72, anchor=CENTER)
     timer = Label(e)
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
-    for k in range(10, 0, -1):
+    for k in range(90, 0, -1):
         timer.configure(text=k)
+        z=me(ch)
+        if z!=0:
+            var.set(z)
         easy_frame.update()
-        time.sleep(1)
-    timer.configure(text="Times up!")
+    timer.configure(text="Time out!")
     responses[id]=var.get()
     var.set("")
     for i in q[1:]:
@@ -143,11 +170,13 @@ def easy():
         b.configure(text=ch[1], value=ch[1])
         c.configure(text=ch[2], value=ch[2])
         d.configure(text=ch[3], value=ch[3])
-        for k in range(10, 0, -1):
+        for k in range(90, 0, -1):
             timer.configure(text=k)
+            z = me(ch)
+            if z != 0:
+                var.set(z)
             easy_frame.update()
-            time.sleep(1)
-        timer.configure(text="Times up!")
+        timer.configure(text="Time out!")
         responses[id] = str(var.get())
         var.set("")
     else:
@@ -168,6 +197,7 @@ def start():
     global root 
     root = Tk()
     root.title("-Welcome to Texam-")
+    root.geometry("626x475+800+0")
     canvas = Canvas(root,width = 626,height = 420)
     canvas.grid(column = 0 , row = 1)
     img = PhotoImage(file="back.png")
