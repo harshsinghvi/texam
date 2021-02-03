@@ -1,4 +1,4 @@
-name: PyInstaller
+name: automation
 
 on: [push]
 
@@ -23,12 +23,18 @@ jobs:
       with:
         name: quiz-windows-exe
         path: .\gui\dist\quiz-windows.exe
+    - uses: dev-drprasad/delete-tag-and-release@v0.1.2
+      with:
+        delete_release: true # default: false
+        tag_name: latest # tag name to delete
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: .\gui\dist\quiz-windows.exe
-        tag: Automated Builds 
+        tag: latest
         overwrite: true
         file_glob: true
 
