@@ -4,6 +4,10 @@ import webbrowser
 from client import *
 from AI import *
 import re
+import io
+import base64
+from urllib.request import urlopen
+
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
 global data,penalties,q
 data={}
@@ -99,8 +103,11 @@ def menu():
     menu.title("-Texam-")
     canvas = Canvas(menu, width=626, height=420)
     canvas.grid(column=0, row=1)
-    img = PhotoImage(file="Guide.png")
-    canvas.create_image(0, 0, image=img, anchor=NW)
+    image_url = "http://github.com/harshsinghvi/texam/raw/master/gui/Guide.png"
+    image_byt = urlopen(image_url).read()
+    image_b64 = base64.encodestring(image_byt)
+    photo = PhotoImage(data=image_b64)
+    canvas.create_image(0, 0, image=photo, anchor=NW)
     button = Button(menu, text='START', command=easy)
     button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,font='Helvetica 18 bold')
     button.grid(column=0, row=2)
@@ -129,7 +136,7 @@ def easy():
     global penalties
     timer = Label(menu)
     timer.place(relx=0.6, rely=0.950, anchor=CENTER)
-    for k in range(60, 0, -1):
+    for k in range(10, 0, -1):
         timer.configure(text=k)
         canvas.update()
         time.sleep(1)
@@ -213,8 +220,11 @@ def start():
     root.geometry("626x475+800+0")
     canvas = Canvas(root,width = 626,height = 420)
     canvas.grid(column = 0 , row = 1)
-    img = PhotoImage(file="back.png")
-    canvas.create_image(0,0,image=img,anchor=NW)
+    image_url = "http://github.com/harshsinghvi/texam/raw/master/gui/back.png"
+    image_byt = urlopen(image_url).read()
+    image_b64 = base64.encodestring(image_byt)
+    photo = PhotoImage(data=image_b64)
+    canvas.create_image(0,0,image=photo,anchor=NW)
     button = Button(root, text='START',command = signUpPage)
     button.configure(width = 46,height=2, activebackground = "#33B5E5", bg ='green', relief = RAISED,font='Helvetica 18 bold')
     button.grid(column = 0 , row = 2)
