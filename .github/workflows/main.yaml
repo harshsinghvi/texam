@@ -19,16 +19,17 @@ jobs:
         pip install pyinstaller opencv-python tk numpy requests 
     - name: build with pyinstaller
       run: |
-        pyinstaller .\gui\quiz.py -n quiz -F -w -i .\gui\favicon.ico
+        cd gui
+        pyinstaller quiz.py -n quiz -F -w -i favicon.ico
     - uses: actions/upload-artifact@v2
       with:
         name: python-exe
-        path: dist\quiz.exe
+        path: guiz\dist\quiz.exe
     - name: Upload binaries to release
       uses: svenstaro/upload-release-action@v2
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
-        file: dist\quiz.exe
+        file: quiz\dist\quiz.exe
         tag: ${{ github.ref }}
         overwrite: true
         file_glob: true
