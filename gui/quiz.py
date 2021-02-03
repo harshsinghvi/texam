@@ -105,8 +105,7 @@ def menu():
     canvas.grid(column=0, row=1)
     image_url = "http://github.com/harshsinghvi/texam/raw/master/gui/Guide.png"
     image_byt = urlopen(image_url).read()
-    image_b64 = base64.encodestring(image_byt)
-    photo = PhotoImage(data=image_b64)
+    photo = PhotoImage(data=image_byt)
     canvas.create_image(0, 0, image=photo, anchor=NW)
     button = Button(menu, text='START', command=easy)
     button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,font='Helvetica 18 bold')
@@ -222,8 +221,7 @@ def start():
     canvas.grid(column = 0 , row = 1)
     image_url = "http://github.com/harshsinghvi/texam/raw/master/gui/back.png"
     image_byt = urlopen(image_url).read()
-    image_b64 = base64.encodestring(image_byt)
-    photo = PhotoImage(data=image_b64)
+    photo = PhotoImage(data=image_byt)
     canvas.create_image(0,0,image=photo,anchor=NW)
     button = Button(root, text='START',command = signUpPage)
     button.configure(width = 46,height=2, activebackground = "#33B5E5", bg ='green', relief = RAISED,font='Helvetica 18 bold')
