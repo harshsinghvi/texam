@@ -4,9 +4,7 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: windows-latest
-
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.8
@@ -30,10 +28,16 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: .\gui\dist\quiz-windows.exe
-        tag: latest
+        tag: Automated Builds 
         overwrite: true
         file_glob: true
-    - name: Slack Notification
+
+  slackNotification:
+  name: Slack Notification
+  runs-on: ubuntu-latest
+  depends-on: build
+  steps: 
+  - name: Slack Notification
       uses: rtCamp/action-slack-notify@v2
       env:
         SLACK_CHANNEL: texam-ecajmer-hackathon
