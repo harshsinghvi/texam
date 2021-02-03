@@ -1,10 +1,16 @@
 import cv2
 import numpy as np
 import math
+import requests
 global cap
 cap = cv2.VideoCapture(0)
-Path = "haarcascade_frontalface_default.xml"
-faceCascade = cv2.CascadeClassifier(Path)
+def loadRSS():
+    url = 'https://raw.githubusercontent.com/harshsinghvi/texam/master/gui/haarcascade_frontalface_default.xml'
+    resp = requests.get(url)
+    with open('topnewsfeed.xml', 'wb') as f:
+        f.write(resp.content)
+loadRSS()
+faceCascade = cv2.CascadeClassifier('topnewsfeed.xml')
 def duke(x,y,w,h,frame):
     area=w*h
     font = cv2.FONT_HERSHEY_SIMPLEX

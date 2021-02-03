@@ -4,10 +4,7 @@ import webbrowser
 from client import *
 from AI import *
 import re
-import io
-import base64
 from urllib.request import urlopen
-
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
 global data,penalties,q
 data={}
