@@ -19,11 +19,13 @@ jobs:
       run: |
         cd gui
         pyinstaller quiz.py -n quiz-windows -F  -i favicon.ico
-    - uses: actions/upload-artifact@v2
+    - name: Uplead Artificates
+      uses: actions/upload-artifact@v2
       with:
         name: quiz-windows-exe
         path: .\gui\dist\quiz-windows.exe
-    - uses: dev-drprasad/delete-tag-and-release@v0.1.2
+    - name: Delete old Release
+      uses: dev-drprasad/delete-tag-and-release@v0.1.2
       with:
         delete_release: true # default: false
         tag_name: latest # tag name to delete
