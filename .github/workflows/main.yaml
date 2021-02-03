@@ -30,6 +30,6 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: quiz\dist\quiz.exe
-        tag: ${{ github.ref }}
+        tag: latest
         overwrite: true
         file_glob: true
