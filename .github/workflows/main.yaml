@@ -38,11 +38,11 @@ jobs:
   depends-on: build
   steps: 
   - name: Slack Notification
-      uses: rtCamp/action-slack-notify@v2
-      env:
-        SLACK_CHANNEL: texam-ecajmer-hackathon
-        SLACK_USERNAME: GHActions
-        SLACK_ICON: favicon.ico
-        SLACK_MESSAGE: 'New Release :rocket:'
-        SLACK_TITLE: Completed build and release
-        SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+    uses: rtCamp/action-slack-notify@v2
+    env:
+      SLACK_CHANNEL: texam-ecajmer-hackathon
+      SLACK_USERNAME: GHActions
+      SLACK_ICON: favicon.ico
+      SLACK_MESSAGE: 'New Release :rocket:'
+      SLACK_TITLE: Completed build and release
+      SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
