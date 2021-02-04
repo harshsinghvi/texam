@@ -18,7 +18,7 @@ jobs:
     - name: build with pyinstaller
       run: |
         cd gui
-        pyinstaller quiz.py -n quiz-windows -F  -i favicon.ico
+        pyinstaller main.py -n quiz-windows -F  -i favicon.ico
     - name: Uplead Artificates
       uses: actions/upload-artifact@v2
       with:
