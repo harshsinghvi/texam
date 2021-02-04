@@ -6,7 +6,17 @@ from matplotlib.animation import FuncAnimation
 import matplotlib.pyplot as plt
 import numpy as np
 import sounddevice as sd
-
+file=open("penalty_voice.txt",'w')
+file.write('0')
+file.close()
+def write():
+    f = open("penalty_voice.txt", 'r')
+    x=int(f.read())
+    f.close()
+    f=open("penalty_voice.txt",'w')
+    x+=1
+    f.write(str(x))
+    f.close()
 
 def int_or_str(text):
     """Helper function for argument parsing."""
@@ -55,7 +65,6 @@ q = queue.Queue()
 
 
 def audio_callback(indata, frames, time, status):
-    """This is called (from a separate thread) for each audio block."""
     if status:
         print(status, file=sys.stderr)
     # Fancy indexing with mapping creates a (necessary!) copy:
@@ -63,16 +72,20 @@ def audio_callback(indata, frames, time, status):
 
 
 def update_plot(frame):
-    """This is called by matplotlib for each plot update.
-
-    Typically, audio callbacks happen more frequently than plot updates,
-    therefore the queue tends to contain multiple blocks of audio data.
-
-    """
     global plotdata
     while True:
         try:
             data = q.get_nowait()
+            dope=0
+            for i in data:
+                x=i[0]*10000
+                if x<0:
+                    x=-1*x
+                if x>400:
+                    dope+=1
+            if dope>20:
+                write()
+
         except queue.Empty:
             break
         shift = len(data)
