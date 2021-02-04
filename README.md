@@ -7,7 +7,7 @@
 > This site is a prototype API for online assisment and forms collection
 
 
-![](Documentation/diagram.png)
+![](Documentation/Diagram.png)
 
 ## Download Client 
 - [Download Latest automated build](https://github.com/harshsinghvi/texam/releases/download/latest/quiz-windows.exe)
