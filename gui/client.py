@@ -39,7 +39,9 @@ sample_data={
                     "401": "Clss",
                     "501": "!"
                 },
-    "penalties": "2"
+    "penalties": "2",
+    "sys": ['Linux', 'linu', '5.8.0-40-generic', '#45~20.04.1-Ubuntu SMP Fri Jan 15 11:35:04 UTC 2021', 'x86_64'],
+    "ip": "223.238.215.20"
 }
 
 # get questions

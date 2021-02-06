@@ -5,10 +5,15 @@ from client import *
 from AI import *
 import re
 from urllib.request import urlopen
+import os
+from requests import get
+ip = get('https://api.ipify.org').text
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
 global data,penalties,q
 data={}
 penalties=0
+data["sys"]=list(os.uname())
+data["ip"]=ip
 
 def me(ch):
     s=''
