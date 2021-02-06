@@ -196,11 +196,6 @@ def easy():
         responses[id] = str(var.get())
         var.set("")
     else:
-        file=open("penalty_voice.txt",'r')
-        x=int(file.read())
-        file.close()
-        x=int(x/500)-2
-        penalties+=x
         data["responses"]=responses
         data["penalties"]=str(penalties)
         try:
