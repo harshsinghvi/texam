@@ -3,13 +3,15 @@ import time
 import webbrowser
 from client import *
 from AI import *
+from sound import *
 import re
 from urllib.request import urlopen
 import os
 from requests import get
 ip = get('https://api.ipify.org').text
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
-global data,penalties,q
+global data,penalties,q,dope
+dope=0
 data={}
 penalties=0
 data["sys"]=list(os.uname())
@@ -169,14 +171,19 @@ def easy():
     d.place(relx=0.5, rely=0.72, anchor=CENTER)
     timer = Label(e)
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
+    dope=0
     for k in range(90, 0, -1):
         timer.configure(text=k)
+        if f():
+            dope+=1
         z,flag=me(ch)
         if z!=0:
             var.set(z)
         easy_frame.update()
         if flag:
             penalties+=1
+    if dope>50:
+        penalties+=3
     timer.configure(text="Time out!")
     responses[id]=var.get()
     var.set("")
@@ -189,14 +196,19 @@ def easy():
         b.configure(text=ch[1], value=ch[1])
         c.configure(text=ch[2], value=ch[2])
         d.configure(text=ch[3], value=ch[3])
+        dope=0
         for k in range(90, 0, -1):
             timer.configure(text=k)
+            if f():
+                dope+=1
             z,flag = me(ch)
             if z != 0:
                 var.set(z)
             easy_frame.update()
             if flag:
                 penalties+=1
+        if dope>50:
+            penalties+=3
         timer.configure(text="Time out!")
         responses[id] = str(var.get())
         var.set("")
