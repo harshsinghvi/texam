@@ -136,7 +136,7 @@ def showMark(mark):
     sp.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
     sp.place(relx=0.40, rely=0.6)
 def easy():
-    global penalties
+    global penalties,dope
     timer = Label(menu)
     timer.place(relx=0.6, rely=0.950, anchor=CENTER)
     for k in range(10, 0, -1):
@@ -171,8 +171,7 @@ def easy():
     d.place(relx=0.5, rely=0.72, anchor=CENTER)
     timer = Label(e)
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
-    dope=0
-    for k in range(90, 0, -1):
+    for k in range(30, 0, -1):
         timer.configure(text=k)
         if f():
             dope+=1
@@ -182,8 +181,6 @@ def easy():
         easy_frame.update()
         if flag:
             penalties+=1
-    if dope>50:
-        penalties+=3
     timer.configure(text="Time out!")
     responses[id]=var.get()
     var.set("")
@@ -196,8 +193,7 @@ def easy():
         b.configure(text=ch[1], value=ch[1])
         c.configure(text=ch[2], value=ch[2])
         d.configure(text=ch[3], value=ch[3])
-        dope=0
-        for k in range(90, 0, -1):
+        for k in range(30, 0, -1):
             timer.configure(text=k)
             if f():
                 dope+=1
@@ -207,12 +203,12 @@ def easy():
             easy_frame.update()
             if flag:
                 penalties+=1
-        if dope>50:
-            penalties+=3
         timer.configure(text="Time out!")
         responses[id] = str(var.get())
         var.set("")
     else:
+        dope-=3
+        penalties+=dope
         data["responses"]=responses
         data["penalties"]=str(penalties)
         try:
