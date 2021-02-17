@@ -21,3 +21,4 @@ sklearn==0.0
 sounddevice==0.4.1
 threadpoolctl==2.1.0
 urllib3==1.26.3
+SoundFile~=0.10.3.post1
