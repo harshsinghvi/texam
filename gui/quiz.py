@@ -6,7 +6,7 @@ from AI import *
 from sound import *
 import re
 from urllib.request import urlopen
-import os
+# import os
 from requests import get
 ip = get('https://api.ipify.org').text
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$' #email format
@@ -14,8 +14,7 @@ global data,penalties,q,dope
 dope=0
 data={}
 penalties=0
-data["sys"]=list(os.uname())
-data["ip"]=ip
+data["sys_info"]=getSystemInfo()
 
 def me(ch):
     s=''

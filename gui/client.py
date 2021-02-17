@@ -1,4 +1,4 @@
-import requests
+import requests,platform,socket,re,uuid
 
 class Request_error:
     pass
@@ -27,6 +27,19 @@ def post_responses(data):
     else:
         raise Request_error
 
+def getSystemInfo():
+    info={}
+    info['platform']=platform.system()
+    info['platform-release']=platform.release()
+    info['platform-version']=platform.version()
+    info['architecture']=platform.machine()
+    info['hostname']=socket.gethostname()
+    info['ip-address']=socket.gethostbyname(socket.gethostname())
+    info['mac-address']=':'.join(re.findall('..', '%012x' % uuid.getnode()))
+    info['processor']=platform.processor()
+    info['public-ip'] = requests.get("http://ip.me").text
+    return info
+    
 # post_responses
 sample_data={
 
