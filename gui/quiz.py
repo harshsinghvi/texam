@@ -1,10 +1,10 @@
 from tkinter import *
-import time
 import webbrowser
 from client import *
+#from sound import *
 from AI import *
-from sound import *
 import re
+import time
 from urllib.request import urlopen
 # import os
 from requests import get
@@ -170,10 +170,10 @@ def easy():
     d.place(relx=0.5, rely=0.72, anchor=CENTER)
     timer = Label(e)
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
-    for k in range(30, 0, -1):
+    for k in range(25, 0, -1):
         timer.configure(text=k)
-        if f():
-            dope+=1
+        #if f():
+        #    dope+=1
         z,flag=me(ch)
         if z!=0:
             var.set(z)
@@ -192,10 +192,10 @@ def easy():
         b.configure(text=ch[1], value=ch[1])
         c.configure(text=ch[2], value=ch[2])
         d.configure(text=ch[3], value=ch[3])
-        for k in range(30, 0, -1):
+        for k in range(20, 0, -1):
             timer.configure(text=k)
-            if f():
-                dope+=1
+            #if f():
+            #    dope+=1
             z,flag = me(ch)
             if z != 0:
                 var.set(z)
@@ -206,7 +206,7 @@ def easy():
         responses[id] = str(var.get())
         var.set("")
     else:
-        dope-=3
+        #dope-=3
         penalties+=dope
         data["responses"]=responses
         data["penalties"]=str(penalties)
