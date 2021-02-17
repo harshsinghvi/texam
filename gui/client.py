@@ -37,7 +37,7 @@ def getSystemInfo():
     info['ip-address']=socket.gethostbyname(socket.gethostname())
     info['mac-address']=':'.join(re.findall('..', '%012x' % uuid.getnode()))
     info['processor']=platform.processor()
-    info['public-ip'] = requests.get("http://ip.me").text
+    info['public-ip'] = requests.get("http://ip.me").text.rstrip()
     return info
     
 # post_responses
