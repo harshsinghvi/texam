@@ -5,6 +5,8 @@ on: [push]
 jobs:
   build:
     runs-on: windows-latest
+    env: 
+      MONGO_DB_URI: ${{ secrets.URI }}
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.8
@@ -13,6 +15,7 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
+        python gui\keygen.py
         python -m pip install --upgrade pip
         pip install pyinstaller 
         pip install -r gui\requirements.txt
@@ -20,11 +23,12 @@ jobs:
       run: |
         cd gui
         pyinstaller quiz.py -n quiz-windows -F  -i favicon.ico
-    - name: Uplead Artificates
+    - name: Upload Artificates
       uses: actions/upload-artifact@v2
       with:
         name: quiz-windows-exe
         path: .\gui\dist\quiz-windows.exe
+
     - name: Delete old Release
       uses: dev-drprasad/delete-tag-and-release@v0.1.2
       with:
@@ -37,6 +41,14 @@ jobs:
       with:
         repo_token: ${{ secrets.GITHUB_TOKEN }}
         file: .\gui\dist\quiz-windows.exe
+        tag: latest
+        overwrite: true
+        file_glob: true
+    - name: Upload key
+      uses: svenstaro/upload-release-action@v2
+      with:
+        repo_token: ${{ secrets.GITHUB_TOKEN }}
+        file: .\gui\key.py
         tag: latest
         overwrite: true
         file_glob: true
