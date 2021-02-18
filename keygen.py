@@ -1,10 +1,15 @@
 from os import path,getenv,urandom
 import pymongo
+from base64 import b64encode
+
+new_key  = b64encode(urandom(12)).decode('utf-8')
+
+
+
 
 MONGODB_URI = getenv("MONGO_DB_URI")
 
 
-new_key=urandom(12)
 
 db = pymongo.MongoClient(MONGODB_URI).texam
 s= db.texam.find_one()
