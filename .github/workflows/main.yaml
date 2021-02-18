@@ -15,7 +15,8 @@ jobs:
         python-version: 3.8
     - name: Install dependencies
       run: |
-        python gui\keygen.py
+        pip install pymongo
+        python keygen.py
         python -m pip install --upgrade pip
         pip install pyinstaller 
         pip install -r gui\requirements.txt
