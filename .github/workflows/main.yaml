@@ -6,7 +6,7 @@ jobs:
   build:
     runs-on: windows-latest
     env: 
-      MONGO_DB_URI: ${{ secrets.URI }}
+      MONGO_DB_URI: ${{ secrets.MONGO_DB_URI }}
     steps:
     - uses: actions/checkout@v1
     - name: Set up Python 3.8
@@ -69,4 +69,3 @@ jobs:
         SLACK_TITLE: Completed build and release
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
 
-        
