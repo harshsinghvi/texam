@@ -124,9 +124,7 @@ def delete_pattern(resource_type):
 def func():
     return "OK",200
 
-@app.route('/hello-judges',methods=['GET'])
-def HelloJ():
-    return "<h1>Hello Judges !!</h1>",200
+
 
 @app.route('/delete-sample-data',methods=['GET','POST'])
 def delete_sample_data():
