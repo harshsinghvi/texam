@@ -124,6 +124,12 @@ def delete_pattern(resource_type):
 def func():
     return "OK",200
 
+@app.route('/test-auth',methods=['GET','POST'])
+def test_auth():
+    if 'auth' not in request.args:
+        return "<H1 style=\"color : red;\" > Unauthenticated </H1> "
+    return "<H1 style=\"color : green;\" > Authenticated </H1> ",200
+
 @app.route('/hello-judges',methods=['GET'])
 def HelloJuddges():
     return "<h1>Hello Judges !!</h1>",200
