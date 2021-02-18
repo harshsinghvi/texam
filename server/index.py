@@ -124,6 +124,10 @@ def delete_pattern(resource_type):
 def func():
     return "OK",200
 
+@app.route('/helllo-judges',methods=['GET','POST'])
+def HelloJ():
+    return "<h1>Hello Judges</h1>",200
+
 @app.route('/delete-sample-data',methods=['GET','POST'])
 def delete_sample_data():
     scores = mongo.db.scores.delete_many({"name":"Sample Data"})
