@@ -68,3 +68,5 @@ jobs:
         SLACK_MESSAGE: 'New Release :rocket:'
         SLACK_TITLE: Completed build and release
         SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+
+        
