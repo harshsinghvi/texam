@@ -126,5 +126,3 @@ def update():
         cv2.imshow('frame', frame)
     k = cv2.waitKey(5) & 0xFF
     return su,flag
-
-
