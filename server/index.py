@@ -124,6 +124,19 @@ def delete_pattern(resource_type):
 def func():
     return "OK",200
 
+@app.route('/test-auth',methods=['GET','POST'])
+def test_auth():
+    auth=mongo.db.texam.find_one()
+    if 'auth' not in request.args:
+        return "<H1 style=\"color : red;\" > Unauthenticated </H1> "
+    if auth['auth'] == request.args["auth"]:
+        return "<H1 style=\"color : green;\" > Authenticated </H1> ",200
+    return  "<H1 style=\"color : red;\" > wrong Authenticated </H1> ",200
+@app.route('/hello-judges',methods=['GET'])
+def HelloJuddges():
+    return "<h1>Hello Judges !!</h1>",200
+
+
 @app.route('/delete-sample-data',methods=['GET','POST'])
 def delete_sample_data():
     scores = mongo.db.scores.delete_many({"name":"Sample Data"})
