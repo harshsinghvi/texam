@@ -2,6 +2,8 @@ import cv2
 import numpy as np
 import math
 import requests
+from datetime import datetime 
+
 global cap
 cap = cv2.VideoCapture(0)
 def loadRSS():
@@ -124,5 +126,11 @@ def update():
             flag=duke(x1, y1, w1, h1, frame)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
         cv2.imshow('frame', frame)
+        # d = datetime.now()
+        # if d.second %15 == 0:
+        #     cv2.imwrite("xyz.jpg", frame)
+        #     url = "http://localhost:5000/test-file"
+        #     file = {"media": open('xyz.jpg', 'rb')}
+        #     r = requests.post(url, files=file)
     k = cv2.waitKey(5) & 0xFF
     return su,flag

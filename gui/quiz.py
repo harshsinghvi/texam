@@ -8,7 +8,6 @@ import time
 from urllib.request import urlopen
 from requests import get
 
-ip = get('https://api.ipify.org').text
 regex = '^[a-z0-9]+[\._]?[a-z0-9]+[@]\w+[.]\w{2,3}$'  # email format
 global data, penalties, q, dope
 dope = 0
@@ -245,7 +244,7 @@ def start():
     canvas.create_image(0, 0, image=photo, anchor=NW)
     button = Button(root, text='START', command=signUpPage)
     button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,
-                     font='Helvetica 18 bold')
+                    font='Helvetica 18 bold')
     button.grid(column=0, row=2)
     root.mainloop()
 
