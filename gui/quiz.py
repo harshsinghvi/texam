@@ -99,9 +99,9 @@ def signUpPage():
             menu()
 
     # JOIN BUTTON
-    sp = Button(sup_frame, text='LOGIN', padx=5, pady=5, width=5, command=addUserToDataBase, bg='green')
-    sp.configure(width=15, height=1, activebackground="#33B5E5", relief=FLAT)
-    sp.place(relx=0.43, rely=0.8)
+    sp = Button(sup_frame, text='LOGIN', padx=5, pady=5, width=5, command=addUserToDataBase, bg='royal blue')
+    sp.configure(width=15, height=1, activebackground="gray24", relief=FLAT,font='Helvetica 18 bold')
+    sp.place(relx=0.38, rely=0.8)
 
 
 def menu():
@@ -117,7 +117,7 @@ def menu():
     photo = PhotoImage(data=image_byt)
     canvas.create_image(0, 0, image=photo, anchor=NW)
     button = Button(menu, text='START', command=easy)
-    button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,
+    button.configure(width=46, height=2, activebackground="#33B5E5", bg='gray24', relief=RAISED,
                      font='Helvetica 18 bold')
     button.grid(column=0, row=2)
     menu.mainloop()
@@ -244,7 +244,7 @@ def start():
     photo = PhotoImage(data=image_byt)
     canvas.create_image(0, 0, image=photo, anchor=NW)
     button = Button(root, text='START', command=signUpPage)
-    button.configure(width=46, height=2, activebackground="#33B5E5", bg='green', relief=RAISED,
+    button.configure(width=46, height=2, activebackground="royal blue", bg='gray24', relief=RAISED,
                      font='Helvetica 18 bold')
     button.grid(column=0, row=2)
     root.mainloop()

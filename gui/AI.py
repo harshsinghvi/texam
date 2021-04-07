@@ -80,6 +80,7 @@ def update():
             cv2.line(roi, start, end, [0, 255, 0], 2)
         l += 1
         font = cv2.FONT_HERSHEY_SIMPLEX
+        #print(areacnt,arearatio,areahull)
         if l == 1:
             if areacnt < 2000:
                 pass
@@ -126,3 +127,6 @@ def update():
         cv2.imshow('frame', frame)
     k = cv2.waitKey(5) & 0xFF
     return su,flag
+
+#for i in range(1000):
+#    update()
