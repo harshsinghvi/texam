@@ -163,9 +163,9 @@ def scores():
     data["max_marks"] =  20
     return data
 
-@app.after_request
-def add_header(response):
-    response.headers.add( 'Access-Control-Expose-Headers', 'Content-Range')
+# @app.after_request
+# def add_header(response):
+#     response.headers.add( 'Access-Control-Expose-Headers', 'Content-Range')
 
 
     return response
