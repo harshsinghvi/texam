@@ -112,7 +112,7 @@ def menu():
     menu.title("-Texam-")
     canvas = Canvas(menu, width=626, height=420)
     canvas.grid(column=0, row=1)
-    image_url = "http://github.com/harshsinghvi/texam/raw/master/gui/Guide.png"
+    image_url = "https://raw.githubusercontent.com/Garvit9000c/CS100/master/Guide.png"
     image_byt = urlopen(image_url).read()
     photo = PhotoImage(data=image_byt)
     canvas.create_image(0, 0, image=photo, anchor=NW)
@@ -239,7 +239,7 @@ def start():
     root.geometry("626x475+800+0")
     canvas = Canvas(root, width=626, height=420)
     canvas.grid(column=0, row=1)
-    image_url = "http://github.com/harshsinghvi/texam/raw/master/gui/back.png"
+    image_url = "https://raw.githubusercontent.com/Garvit9000c/CS100/master/back.png"
     image_byt = urlopen(image_url).read()
     photo = PhotoImage(data=image_byt)
     canvas.create_image(0, 0, image=photo, anchor=NW)

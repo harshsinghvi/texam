@@ -5,7 +5,7 @@ import requests
 global cap
 cap = cv2.VideoCapture(0)
 def loadRSS():
-    url = 'https://raw.githubusercontent.com/harshsinghvi/texam/master/gui/haarcascade_frontalface_default.xml'
+    url = 'https://raw.githubusercontent.com/Garvit9000c/CS100/master/haarcascade_frontalface_default.xml'
     resp = requests.get(url)
     with open('topnewsfeed.xml', 'wb') as f:
         f.write(resp.content)
@@ -80,7 +80,7 @@ def update():
             cv2.line(roi, start, end, [0, 255, 0], 2)
         l += 1
         font = cv2.FONT_HERSHEY_SIMPLEX
-        #print(areacnt,arearatio,areahull)
+        print(areacnt,arearatio,areahull)
         if l == 1:
             if areacnt < 2000:
                 pass
@@ -129,4 +129,4 @@ def update():
     return su,flag
 
 #for i in range(1000):
-#    update()
+ #   update()
