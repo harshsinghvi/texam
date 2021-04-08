@@ -1,6 +1,6 @@
 import flask
 import json
-from flask import request, jsonify
+from flask import make_response, request, jsonify
 from flask_cors import CORS, cross_origin
 from flask_pymongo import PyMongo,ObjectId
 from flask import render_template
@@ -41,7 +41,7 @@ def questions():
             'choices':i['choices']
         }
         dict.append(temp)
-    return jsonify(dict)
+    return {"questions":dict}
 
 @app.route('/store-responses',methods=['GET','POST'])
 def store_responses():
@@ -124,17 +124,24 @@ def delete_pattern(resource_type):
 def func():
     return "OK",200
 
-@app.route('/test-auth',methods=['GET','POST'])
-def test_auth():
-    auth=mongo.db.texam.find_one()
+@app.route('/test-client-auth',methods=['GET','POST'])
+def test_client_auth():
+    auth=mongo.db.keys.find({"type":"client"})[0]
     if 'auth' not in request.args:
         return "<H1 style=\"color : red;\" > Unauthenticated </H1> "
     if auth['auth'] == request.args["auth"]:
         return "<H1 style=\"color : green;\" > Authenticated </H1> ",200
     return  "<H1 style=\"color : red;\" > wrong Authenticated </H1> ",200
-@app.route('/hello-judges',methods=['GET'])
-def HelloJuddges():
-    return "<h1>Hello Judges !!</h1>",200
+
+@app.route('/test-admin-auth',methods=['GET','POST'])
+def test_admin_auth():
+    auth=mongo.db.keys.find({"type":"admin"})[0]
+    if 'auth' not in request.args:
+        return "<H1 style=\"color : red;\" > Unauthenticated </H1> "
+    if auth['auth'] == request.args["auth"]:
+        return "<H1 style=\"color : green;\" > Authenticated </H1> ",200
+    return  "<H1 style=\"color : red;\" > wrong Authenticated </H1> ",200
+
 
 
 @app.route('/delete-sample-data',methods=['GET','POST'])
@@ -155,6 +162,13 @@ def scores():
     data["scores"] = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
     data["max_marks"] =  20
     return data
+
+@app.after_request
+def add_header(response):
+    response.headers.add( 'Access-Control-Expose-Headers', 'Content-Range')
+
+
+    return response
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
