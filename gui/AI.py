@@ -27,6 +27,8 @@ def update():
     try:
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
+        cv2.line(frame, (350, 478), (350, 0), (0, 0, 255), 2)
+        cv2.line(frame, (550, 478), (550, 0), (0, 0, 255), 2)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = faceCascade.detectMultiScale(
             gray,
@@ -37,6 +39,10 @@ def update():
         for (x1, y1, w1, h1) in faces:
             cv2.rectangle(frame, (x1, y1), (x1 + w1, y1 + h1), (255, 0,0), 2)
             flag=duke(x1, y1, w1, h1, frame)
+            if x1 <350:
+                su=6
+            if x1+w1>550:
+                su=7
         kernel = np.ones((3, 3), np.uint8)
         x=100
         y=100
@@ -80,7 +86,6 @@ def update():
             cv2.line(roi, start, end, [0, 255, 0], 2)
         l += 1
         font = cv2.FONT_HERSHEY_SIMPLEX
-        print(areacnt,arearatio,areahull)
         if l == 1:
             if areacnt < 2000:
                 pass
@@ -113,6 +118,8 @@ def update():
     except:
         ret, frame = cap.read()
         frame = cv2.flip(frame, 1)
+        cv2.line(frame, (350, 478), (350, 0), (0, 0, 255), 2)
+        cv2.line(frame, (550, 478), (550, 0), (0, 0, 255), 2)
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces = faceCascade.detectMultiScale(
             gray,
@@ -129,4 +136,4 @@ def update():
     return su,flag
 
 #for i in range(1000):
- #   update()
+#    update()

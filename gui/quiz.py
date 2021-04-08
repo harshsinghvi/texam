@@ -33,6 +33,10 @@ def me(ch):
         return s, flag
     elif a == 0:
         return 0, flag
+    elif a== 6:
+        return 6, flag
+    elif a==7:
+        return 7, flag
     else:
         return ch[a - 1], flag
 
@@ -161,63 +165,56 @@ def easy():
     easy_canvas.pack()
     easy_frame = Frame(easy_canvas, bg="white")
     easy_frame.place(relwidth=0.9, relheight=0.9, relx=0.05, rely=0.05)
-    ch = q[0]["choices"]
-    que = q[0]["que"]
-    id = q[0]["id"]
-    responses = {}
-    for i in q:
-        responses[i["id"]] = ''
-    ques = Label(easy_frame, text=que, font="calibri 12", bg="white")
-    ques.place(relx=0.5, rely=0.2, anchor=CENTER)
-    var = StringVar()
-    a = Radiobutton(easy_frame, text=ch[0], font="calibri 10", value=ch[0], variable=var, bg="white")
-    a.place(relx=0.5, rely=0.42, anchor=CENTER)
-    b = Radiobutton(easy_frame, text=ch[1], font="calibri 10", value=ch[1], variable=var, bg="white")
-    b.place(relx=0.5, rely=0.52, anchor=CENTER)
-    c = Radiobutton(easy_frame, text=ch[2], font="calibri 10", value=ch[2], variable=var, bg="white")
-    c.place(relx=0.5, rely=0.62, anchor=CENTER)
-    d = Radiobutton(easy_frame, text=ch[3], font="calibri 10", value=ch[3], variable=var, bg="white")
-    d.place(relx=0.5, rely=0.72, anchor=CENTER)
     timer = Label(e)
     timer.place(relx=0.8, rely=0.8, anchor=CENTER)
-    for k in range(30, 0, -1):
+    ques = Label(easy_frame, text="", font="calibri 12", bg="white")
+    ques.place(relx=0.5, rely=0.2, anchor=CENTER)
+    var = StringVar()
+    a_ = Radiobutton(easy_frame, text='', font="calibri 10", value='', variable=var, bg="white")
+    a_.place(relx=0.5, rely=0.42, anchor=CENTER)
+    b = Radiobutton(easy_frame, text='', font="calibri 10", value='', variable=var, bg="white")
+    b.place(relx=0.5, rely=0.52, anchor=CENTER)
+    c = Radiobutton(easy_frame, text='', font="calibri 10", value='', variable=var, bg="white")
+    c.place(relx=0.5, rely=0.62, anchor=CENTER)
+    d = Radiobutton(easy_frame, text='', font="calibri 10", value='', variable=var, bg="white")
+    d.place(relx=0.5, rely=0.72, anchor=CENTER)
+    responses = {}
+    a = 0
+    lim = len(q) - 1
+    for i in q:
+        responses[i["id"]] = ''
+    for k in range(100, 0, -1):
         timer.configure(text=k)
-        # if f():
-        #    dope+=1
-        z, flag = me(ch)
-        if z != 0:
-            var.set(z)
-        easy_frame.update()
-        if flag:
-            penalties += 1
-    timer.configure(text="Time out!")
-    responses[id] = var.get()
-    var.set("")
-    for i in q[1:]:
-        ch = i["choices"]
-        que = i["que"]
-        id = i["id"]
+        ch = q[a]["choices"]
+        que = q[a]["que"]
+        id = q[a]["id"]
         ques.configure(text=que)
-        a.configure(text=ch[0], value=ch[0])
+        a_.configure(text=ch[0], value=ch[0])
         b.configure(text=ch[1], value=ch[1])
         c.configure(text=ch[2], value=ch[2])
         d.configure(text=ch[3], value=ch[3])
-        for k in range(30, 0, -1):
-            timer.configure(text=k)
-            # if f():
-            #    dope+=1
-            z, flag = me(ch)
-            if z != 0:
+        var.set(responses[id])
+        easy_frame.update()
+        z, flag = me(ch)
+        if z != 0:
+            if z == 6:
+                if a>0:
+                    a -= 1
+            elif z == 7:
+                if a < lim:
+                    a += 1
+            else:
                 var.set(z)
-            easy_frame.update()
-            if flag:
-                penalties += 1
-        timer.configure(text="Time out!")
-        responses[id] = str(var.get())
-        var.set("")
+                responses[id]=z
+        easy_frame.update()
+        # if f():
+        #    dope+=1
+        if flag:
+            penalties += 1
     else:
-        # dope-=3
-        #penalties += dope
+        timer.configure(text="Time out!")
+        # dope-=3                   sound
+        #penalties += dope          sound
         data["responses"] = responses
         data["penalties"] = str(penalties)
         try:
