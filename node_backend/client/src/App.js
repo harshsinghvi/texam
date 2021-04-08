@@ -4,7 +4,9 @@ import { Component } from 'react';
 import { DataGrid } from '@material-ui/data-grid';
 import Navbar from './navbar'
 
-const URL="http://localhost:5000"
+// const URL="http://localhost:5000"
+const URL="https://texam.projects.harshsinghvi.com/"
+
 
 class App extends Component{
   constructor(props)
