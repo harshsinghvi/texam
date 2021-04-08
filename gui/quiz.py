@@ -213,8 +213,8 @@ def easy():
             penalties += 1
     else:
         timer.configure(text="Time out!")
-        # dope-=3                   sound
-        #penalties += dope          sound
+        # dope-=3
+        # penalties += dope
         data["responses"] = responses
         data["penalties"] = str(penalties)
         try:
