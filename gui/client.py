@@ -16,7 +16,7 @@ def test_connection():
 def get_questions():
     req = requests.get(URL+'/questions')
     if req.status_code == 200:
-        return req.json()
+        return req.json()['questions']
     else:
         raise Request_error
 
