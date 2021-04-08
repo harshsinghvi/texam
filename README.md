@@ -23,3 +23,6 @@
 * /delete   
 * /responses
 * /delete-sample-data
+
+## Resources:
+- https://blog.learningdollars.com/2019/11/29/how-to-serve-a-reactapp-with-a-flask-server/
