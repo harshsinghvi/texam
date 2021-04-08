@@ -151,5 +151,7 @@
     "presets": [
       "react-app"
     ]
-  }
+  },
+  "homepage": "/static/react"
+  
 }

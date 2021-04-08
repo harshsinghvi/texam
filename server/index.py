@@ -19,11 +19,14 @@ app.config['MONGO_URI'] = settings.MONGODB_URI
 mongo = PyMongo(app)
 CORS(app, support_credentials=True)
 
-
 # API resourses
 @app.route('/', methods=['GET'])
-def index():
+def result():
     return render_template("result.html")
+
+@app.route('/admin', methods=['GET'])
+def admin():
+    return render_template("admin.html")
 
 @app.route('/responses', methods=['GET'])
 def responses():
