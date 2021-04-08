@@ -23,7 +23,7 @@ CORS(app, support_credentials=True)
 # API resourses
 @app.route('/', methods=['GET'])
 def index():
-    return render_template("index.html")
+    return render_template("result.html")
 
 @app.route('/responses', methods=['GET'])
 def responses():
@@ -142,7 +142,33 @@ def test_admin_auth():
         return "<H1 style=\"color : green;\" > Authenticated </H1> ",200
     return  "<H1 style=\"color : red;\" > wrong Authenticated </H1> ",200
 
+@cross_origin()
+@app.route('/new-question',methods=['GET','POST'])
+def new_question():
+    data=json.loads(request.data)
+    que = {
+        "id": data['id'],
+        "que": data['que'], 
+        "choices": data['choices']
+    }
+    ans = mongo.db.answers.find_one()
 
+    ans[data['id']] = data['answer']
+
+    if mongo.db.questions.insert_one(que).acknowledged and mongo.db.answers.update_one({"_id":ans["_id"]},{"$set":ans}):
+        return "OK",200
+    else:
+        return "not OK", 500
+
+@cross_origin()
+@app.route('/delete-question',methods=['GET','POST'])
+def del_question():
+    data=json.loads(request.data)
+    ans = mongo.db.answers.find_one()
+    if mongo.db.questions.delete_many({"id":data['id']}).acknowledged and mongo.db.answers.update_one({"_id":ans["_id"]},{"$unset":{data["id"]:''}}):
+        return "OK",200
+    else:
+        return "not OK", 500
 
 @app.route('/delete-sample-data',methods=['GET','POST'])
 def delete_sample_data():
@@ -163,12 +189,34 @@ def scores():
     data["max_marks"] =  20
     return data
 
-# @app.after_request
-# def add_header(response):
-#     response.headers.add( 'Access-Control-Expose-Headers', 'Content-Range')
+@cross_origin()
+@app.route('/admin-data',methods=['GET'])
+def admin_data():
+    que=list(mongo.db.questions.find())
+    scores=list(mongo.db.scores.find())
+    dbResponses=list(mongo.db.responses.find())
+    ans=mongo.db.answers.find_one()
+    answers = []
+    
+    for x in ans: 
+        if x != '_id':
+            answers.append({"id":x, "answer":ans[x]})
+    for i in que:
+        i.pop('_id')
+    for i in scores:
+        i.pop('_id')
+    for i in dbResponses:
+        temp = i['_id']
+        i['id'] = str(temp)
+        i.pop("_id")
 
-
-    return response
+    data = {
+        "questions":que,
+        "responses":dbResponses,
+        "scores":scores,
+        "answers":answers
+    }
+    return data
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0")
