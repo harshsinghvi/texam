@@ -16,6 +16,13 @@ URL = 'https://texam.projects.harshsinghvi.com'
 def get_questions():
     req = requests.get(URL+'/questions')
     if req.status_code == 200:
+        return req.json()['questions']
+    else:
+        raise Request_error
+
+def get_admin_data():
+    req = requests.get(URL+'/admin-data')
+    if req.status_code == 200:
         return req.json()
     else:
         raise Request_error
@@ -68,6 +75,10 @@ def delete_many(resource_type, data):
     else:
         raise Request_error
 
+def delete_data(data):
+    print(delete_many(RESPONSES,data))
+    print(delete_many(ANSWER,data))
+	
 # post_responses
 sample_data={
 
