@@ -183,13 +183,14 @@ def delete_sample_data():
 @app.route('/scores',methods=['GET'])
 def scores():
     scores=mongo.db.scores.find()
+    que=list(mongo.db.questions.find())
     data={ "scores": [] }
     for i in scores:
         i['uid']=str(i["_id"])
         i.pop("_id")
         data['scores'].append(i)
     data["scores"] = sorted(data['scores'] , key= lambda k:( int(k['total']), int(k['score']) ), reverse=True)
-    data["max_marks"] =  20
+    data["max_marks"] =  4*(len(que))
     return data
 
 @cross_origin()
