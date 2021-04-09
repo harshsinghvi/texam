@@ -30,7 +30,7 @@ class App extends Component{
     const rc =[
 
       { field: 'timestamp', headerName: 'Timestamp', width: 300 },
-      { field: 'name', headerName: 'Name', width: 130 },
+      { field: 'name', headerName: 'Name', width: 300 },
       { field: 'email', headerName: 'Email', width: 250 },
       { field: 'responses', headerName: 'Responses', width: 600 },
       { field: 'penalties', headerName: 'Penalties', width: 150 },
