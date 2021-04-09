@@ -135,12 +135,13 @@ def showMark(mark):
     sh = Tk()
     sh.title("-RESULT-")
     total = int((mark['total']))
-    per = total * 5
+    max = len(q) *4
+    per = total * 100/max
     show_canvas = Canvas(sh, width=720, height=440, bg="black")
     show_canvas.pack()
     show_frame = Frame(show_canvas, bg="white")
     show_frame.place(relwidth=0.8, relheight=0.8, relx=0.1, rely=0.1)
-    st = "Your score is " + str(total) + " out of 20. i.e " + str(per) + "%"
+    st = "Your score is " + str(total) + " out of "+str(max)+". i.e " + str(per) + "%"
     mlabel = Label(show_canvas, text=st, fg="black")
     mlabel.place(relx=0.5, rely=0.2, anchor=CENTER)
     sp = Button(show_frame, text='LeaderBoard', padx=5, pady=5, width=5, command=lead, bg='green')
@@ -183,7 +184,7 @@ def easy():
     lim = len(q) - 1
     for i in q:
         responses[i["id"]] = ''
-    for k in range(100, 0, -1):
+    for k in range(50, 0, -1):
         timer.configure(text=k)
         ch = q[a]["choices"]
         que = q[a]["que"]
